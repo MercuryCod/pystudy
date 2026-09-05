@@ -1,0 +1,554 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>1.1 Index laws · Pure Mathematics 1 · Pystudy</title>
+<meta name="description" content="Four rules for powers of the same base, and the two ways examiners test them.">
+<meta name="theme-color" content="#0E0E0E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23111'/%3E%3Cg transform='translate(4 4)' fill='none' stroke='%23fff' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3.5 6.5c1.5 0 2.5-.6 3-1.5'/%3E%3Cpath d='M5 6.5h15.5'/%3E%3Cpath d='M8.5 6.5v12.5'/%3E%3Cpath d='M15.5 6.5v9.5c0 1.8 1.2 2.9 2.8 2.9.9 0 1.6-.3 2.2-.9'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../../katex/katex.min.css">
+<style>
+/* Monochrome. Type scale 12 14 16 18 20 24 30 36 48; spacing 4 8 12 16 24 32 48 64 96.
+   Elevation: five two-part steps, assigned by height. Emphasis is weight and
+   black-on-white, never a hue. */
+:root{--paper:#FFFFFF;--wash:#F4F4F4;--wash-deep:#E9E9E9;--rule:#D6D6D6;--rule-soft:#E6E6E6;
+--ink:#111111;--ink-soft:#333333;--ink-mute:#6E6E6E;--dim:#A0A0A0;
+--night:#0E0E0E;--night-2:#1A1A1A;--night-3:#272727;--night-4:#3A3A3A;--night-ink:#F3F3F3;--night-mute:#9C9C9C;
+--f-body:'IBM Plex Sans','Helvetica Neue',Arial,sans-serif;--f-mono:'IBM Plex Mono','SF Mono',Menlo,monospace;--f-cjk:'PingFang SC','Hiragino Sans GB','Noto Sans SC','Microsoft YaHei',sans-serif;
+--elev1:0 1px 3px rgba(0,0,0,.10),0 1px 2px rgba(0,0,0,.14);
+--elev2:0 3px 6px rgba(0,0,0,.10),0 2px 4px rgba(0,0,0,.08);
+--elev3:0 10px 20px rgba(0,0,0,.12),0 3px 6px rgba(0,0,0,.08);
+--elev5:0 24px 48px rgba(0,0,0,.28)}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+body.lesson{background:var(--night)}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid currentColor;outline-offset:3px}
+h1,h2,h3{margin:0;text-wrap:balance}
+.wrap{max-width:1180px;margin:0 auto;padding:0 32px}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+/* header: the name, nothing else */
+header.top{position:sticky;top:0;z-index:20;background:var(--night);color:var(--night-ink)}
+body.home header.top{border-bottom:1px solid var(--night-3)}
+header.top .wrap{max-width:none;display:flex;align-items:center;gap:20px;height:52px}
+header.top .brand{display:flex;align-items:center;gap:5px;font-size:18px;letter-spacing:-.01em;color:var(--night-ink);white-space:nowrap}
+header.top .brand .mark{width:22px;height:22px}
+header.top .brand b{font-weight:700}
+header.top .brand span{font-weight:500}
+header.top .brand:hover{color:#fff}
+header.top .brand:hover{color:#fff}
+header.top .crumbs{flex:1;display:flex;align-items:center;gap:8px;min-width:0;font-size:14px;color:var(--night-mute)}
+header.top .crumbs a{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+header.top .crumbs a:hover{color:var(--night-ink)}
+header.top .crumbs i{font-style:normal;color:var(--night-4)}
+/* the app shell: the library sidebar on the left of every page, a rail with
+   one toggle that opens into a panel, its state remembered */
+.app{min-height:calc(100vh - 52px)}
+body.lesson .app{display:grid;grid-template-columns:auto minmax(0,1fr)}
+.side{width:48px;background:var(--night);color:var(--night-ink);border-right:1px solid var(--night-3);display:flex;flex-direction:column;transition:width .2s;position:sticky;top:52px;height:calc(100vh - 52px);overflow:hidden}
+.side[hidden]{display:none}
+body.side-open .side{width:288px}
+.otog{width:48px;height:48px;border:0;background:transparent;color:var(--night-mute);cursor:pointer;display:flex;align-items:center;justify-content:center;flex:none}
+.otog:hover{color:var(--night-ink);background:var(--night-2)}
+.otog svg{width:20px;height:20px}
+.sbody{display:none;padding:4px 12px 24px;min-width:0;overflow:auto;font-size:14px}
+body.side-open .sbody{display:block}
+.side .sq{font-size:12px;color:var(--night-mute);padding:12px 4px 6px}
+.side .sb{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px;align-items:baseline;padding:8px 4px;color:var(--night-ink);font-weight:500;border-radius:6px}
+.side .sb:hover{background:var(--night-2)}
+.side .sb .n{font-family:var(--f-mono);font-size:12px;color:var(--night-mute)}
+.side .sch summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:22px minmax(0,1fr) 18px;align-items:center;gap:6px;padding:7px 4px 7px 12px;color:var(--night-mute);border-radius:6px}
+.side .sch summary::-webkit-details-marker{display:none}
+.side .sch summary:hover{color:var(--night-ink);background:var(--night-2)}
+.side .sch[open] summary{color:var(--night-ink)}
+.side .sch summary .n{font-family:var(--f-mono);font-size:12px}
+.side .sch summary .tt{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.side .sch summary .chev{display:flex;color:var(--night-4);transition:transform .2s}
+.side .sch summary .chev svg{width:14px;height:14px}
+.side .sch[open] summary .chev{transform:rotate(180deg)}
+.side .sch ol{list-style:none;margin:0 0 6px;padding:0 0 0 12px}
+.side .sch li a{display:grid;grid-template-columns:16px minmax(34px,auto) minmax(0,1fr) auto;align-items:baseline;gap:8px;padding:6px 4px 6px 10px;color:var(--night-mute);font-size:13px;border-radius:6px}
+.side .sch li a:hover{color:var(--night-ink);background:var(--night-2)}
+.side .sch li.cur a{color:var(--night-ink);font-weight:500;background:var(--night-2)}
+.side .ok{width:12px;height:12px;border-radius:50%;border:1.5px solid var(--night-4);align-self:center;display:flex;align-items:center;justify-content:center;color:var(--night)}
+.side .ok svg{width:9px;height:9px;display:none}
+.side li.done .ok{background:var(--night-ink);border-color:var(--night-ink)}
+.side li.done .ok svg{display:block}
+.side .n{font-family:var(--f-mono);font-size:12px}
+.side .tt{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.side .d{font-family:var(--f-mono);font-size:11px;color:var(--night-4)}
+.side li.cur .d{color:var(--night-mute)}
+/* the dark band a page opens with */
+.band{background:var(--night);color:var(--night-ink)}
+.band .wrap{padding:56px 32px 56px;display:flex;flex-direction:column;gap:12px}
+.band h1{font-size:clamp(32px,4.2vw,48px);font-weight:600;line-height:1.04;letter-spacing:-.028em;max-width:22ch}
+.band .code{font-family:var(--f-mono);font-size:14px;color:var(--night-mute);margin:0}
+.band .lede{font-size:18px;line-height:1.5;color:var(--night-mute);max-width:60ch;margin:0}
+.band .facts{display:flex;flex-wrap:wrap;gap:8px 24px;margin-top:12px;font-size:14px;color:var(--night-mute)}
+.band .facts b{color:var(--night-ink);font-weight:500}
+/* home: the library */
+.library{padding:48px 0 96px;display:flex;flex-direction:column;gap:56px}
+.series{display:flex;flex-direction:column;gap:20px}
+.series h2{font-size:24px;font-weight:600;letter-spacing:-.02em}
+.series .sub{font-size:14px;color:var(--ink-mute);margin:-12px 0 0}
+.books{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.book{display:flex;flex-direction:column;gap:14px;padding:24px;border-radius:12px;background:var(--wash);color:var(--ink);transition:background .15s}
+.book:hover{background:var(--wash-deep)}
+.book .code{font-family:var(--f-mono);font-size:14px;color:var(--ink-mute)}
+.book b{font-size:22px;font-weight:600;letter-spacing:-.015em;line-height:1.2}
+.book .meta{font-size:14px;color:var(--ink-mute);margin-top:auto}
+/* book page: chapters fold open */
+.chapters{padding:24px 0 96px;display:flex;flex-direction:column}
+details.ch{border-bottom:1px solid var(--rule-soft)}
+details.ch:first-of-type{border-top:1px solid var(--rule-soft)}
+details.ch summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:56px minmax(0,1fr) auto 24px;align-items:baseline;gap:16px;padding:22px 4px}
+details.ch summary::-webkit-details-marker{display:none}
+details.ch summary:hover{background:var(--wash)}
+details.ch summary .n{font-family:var(--f-mono);font-size:14px;color:var(--ink-mute)}
+details.ch summary h2{font-size:22px;font-weight:600;letter-spacing:-.015em}
+details.ch summary .meta{font-size:14px;color:var(--ink-mute);white-space:nowrap}
+details.ch summary .chev{width:24px;height:24px;align-self:center;display:flex;align-items:center;justify-content:center;color:var(--ink-mute);transition:transform .2s}
+details.ch summary .chev svg{width:16px;height:16px}
+details.ch[open] summary .chev{transform:rotate(180deg)}
+details.ch .body{padding:8px 4px 40px 76px;display:flex;flex-direction:column;gap:32px}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px 24px}
+.card{display:flex;flex-direction:column;gap:10px;color:var(--ink)}
+.thumb{position:relative;aspect-ratio:16/9;border-radius:8px;overflow:hidden;background:var(--paper);box-shadow:var(--elev2);transition:transform .2s,box-shadow .2s}
+.thumb::after{content:"";position:absolute;inset:0;border-radius:inherit;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08);pointer-events:none}
+.thumb img{width:100%;height:100%;object-fit:cover}
+.thumb .ph{position:absolute;inset:0;padding:8% 9%;display:flex;flex-direction:column;justify-content:center;gap:4px}
+.thumb .ph b{font-size:clamp(18px,2.2vw,30px);font-weight:600;line-height:1.05;letter-spacing:-.02em}
+.thumb .ph small{font-size:12px;color:var(--ink-mute)}
+.card:hover .thumb,.tool:hover .thumb{transform:translateY(-2px);box-shadow:var(--elev3)}
+.dur{position:absolute;right:8px;bottom:8px;font-family:var(--f-mono);font-size:12px;padding:3px 7px;border-radius:4px;background:rgba(14,14,14,.86);color:var(--night-ink)}
+.play{position:absolute;left:50%;top:50%;width:72px;height:72px;transform:translate(-50%,-50%);border-radius:50%;background:var(--night);border:0;padding:0;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:var(--elev3);transition:transform .15s,background .15s}
+.play svg{width:26px;height:26px;margin-left:4px}
+.play:hover{background:#000;transform:translate(-50%,-50%) scale(1.06)}
+.thumb .play{width:48px;height:48px;opacity:0;transition:opacity .15s}
+.thumb .play svg{width:18px;height:18px;margin-left:3px}
+.card:hover .thumb .play,.tool:hover .thumb .play{opacity:1}
+.cb{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:baseline;padding:0 2px}
+.cb .ok{display:none;color:var(--ink-mute)}.cb .ok svg{width:16px;height:16px}
+.card.done .cb .ok{display:block}
+.tool.done .pill::after{content:" · watched"}
+.cb .sec{font-family:var(--f-mono);font-size:14px;color:var(--ink-mute)}
+.cb .tt{font-size:17px;font-weight:500;line-height:1.3}
+.tools{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.tool{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:16px;align-items:center;padding:12px;border-radius:12px;background:var(--wash);color:var(--ink);transition:background .15s}
+.tool:hover{background:var(--wash-deep)}
+.tool .thumb{border-radius:6px;box-shadow:var(--elev1)}
+.tool .tb{display:flex;flex-direction:column;gap:4px}
+.pill{align-self:flex-start;font-size:12px;font-weight:500;padding:3px 9px;border-radius:999px;background:var(--paper);color:var(--ink-mute)}
+.tool.exam .pill{background:var(--ink);color:var(--paper)}
+.tool b{font-size:17px;font-weight:500;line-height:1.3}
+.tool .tm{font-family:var(--f-mono);font-size:12px;color:var(--ink-mute)}
+/* lesson: the stage fills the window and centres what it holds */
+.stage{background:var(--night);color:var(--night-ink);min-height:calc(100vh - 52px);display:grid;align-content:center}
+.stage .wrap{max-width:none;width:100%;margin:0;display:grid;grid-template-columns:240px minmax(0,1fr) 272px;gap:32px;align-items:start;padding:24px 32px 32px}
+.rail{display:flex;flex-direction:column;gap:24px;font-size:14px}
+.rail .crumbs{display:flex;flex-direction:column;gap:2px;font-size:13px;color:var(--night-mute)}
+.rail .crumbs a:hover{color:var(--night-ink)}
+.rail h1{font-size:26px;font-weight:600;line-height:1.08;letter-spacing:-.024em;margin-top:8px}
+.rail h1 .num{color:var(--night-mute);font-weight:500;margin-right:.2em}
+.rail .lede{font-size:14px;line-height:1.5;color:var(--night-mute);margin:8px 0 0}
+.h3{font-size:13px;font-weight:500;color:var(--night-mute);margin:0 0 8px}
+.timeline{list-style:none;margin:0;padding:0;position:relative}
+.timeline::before,.timeline .fill{content:"";position:absolute;left:5px;top:14px;bottom:14px;width:2px;background:var(--night-3)}
+.timeline .fill{background:var(--night-ink);bottom:auto;height:0;transition:height .4s linear}
+.timeline a{position:relative;display:grid;grid-template-columns:24px 44px minmax(0,1fr);align-items:center;gap:6px;padding:7px 0;color:var(--night-mute);font-size:14px}
+.timeline a::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--night);border:2px solid var(--night-3);margin-left:1px;transition:border-color .15s,background .15s}
+.timeline a:hover{color:var(--night-ink)}.timeline a:hover::before{border-color:var(--night-mute)}
+.timeline a.done::before{border-color:var(--night-ink);background:var(--night-ink)}
+.timeline a.now{color:var(--night-ink);font-weight:500}.timeline a.now::before{border-color:var(--night-ink);background:var(--night)}
+.timeline a .t{font-family:var(--f-mono);font-size:12px;color:var(--night-mute);font-variant-numeric:tabular-nums}
+.centre{display:flex;flex-direction:column;align-items:center;min-width:0}
+/* the player: frame above, one bar below, one object */
+.player{width:min(100%,calc((100vh - 52px - 56px - 64px) * 16 / 9));border-radius:12px;overflow:hidden;background:var(--night-2);box-shadow:var(--elev5),0 0 0 1px rgba(255,255,255,.06)}
+.video{position:relative;aspect-ratio:16/9;background:var(--paper);container-type:inline-size}
+.video img,.video iframe,.video .yt{position:absolute;inset:0;width:100%;height:100%;border:0}
+.video iframe{pointer-events:none}
+.video img{object-fit:cover}
+.video .ph{position:absolute;inset:0;padding:5% 6%;display:flex;flex-direction:column;justify-content:center;gap:8px;color:var(--ink)}
+.video .ph b{font-size:clamp(28px,4vw,56px);font-weight:600;line-height:1.04;letter-spacing:-.024em;max-width:70%}
+.video .ph span{font-size:clamp(14px,1.4vw,20px);color:var(--ink-mute);max-width:70%}
+.video .play{width:84px;height:84px}.video .play svg{width:32px;height:32px}
+.video.pending .play{background:var(--dim);cursor:default;transform:translate(-50%,-50%)}
+.video .shield{position:absolute;inset:0;cursor:pointer;z-index:2}
+.video .held{position:absolute;inset:0;z-index:3;background:var(--paper);opacity:0;visibility:hidden;transition:opacity .35s,visibility 0s .35s}
+.video .held img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.video .held .play{z-index:1}
+.video.paused .held,.video.grace .held{opacity:1;visibility:visible;transition:opacity .15s}
+.video.grace .held .play{display:none}
+.bar{display:flex;flex-direction:column;padding:0 12px 6px;color:var(--night-mute);font-family:var(--f-mono);font-size:13px;font-variant-numeric:tabular-nums}
+.seek{position:relative;height:18px;display:flex;align-items:center;cursor:pointer}
+.seek .segs{position:relative;width:100%;height:4px;display:flex;gap:2px;transition:height .1s}
+.seek:hover .segs{height:6px}
+.seek .segs i{display:block;height:100%;background:var(--night-4);border-radius:2px;position:relative;overflow:hidden}
+.seek .segs i b{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--night-ink)}
+.seek .knob{position:absolute;top:50%;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;background:var(--night-ink);left:0;opacity:0;transition:opacity .1s;pointer-events:none}
+.seek:hover .knob{opacity:1}
+.seek .tip{position:absolute;bottom:100%;transform:translateX(-50%);padding:4px 8px;border-radius:4px;background:var(--night-ink);color:var(--night);font-family:var(--f-body);font-size:12px;white-space:nowrap;opacity:0;pointer-events:none}
+.seek:hover .tip{opacity:1}
+.row{display:flex;align-items:center;gap:4px;height:40px}
+.row .sp{flex:1}
+.row button{flex:none;width:36px;height:36px;border:0;border-radius:6px;background:transparent;color:var(--night-ink);display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0}
+.row button:hover{background:var(--night-3)}
+.row button svg{width:20px;height:20px}
+.row .cap{display:flex;align-items:center;margin:0 6px}
+.row button.cc{font-family:var(--f-body);font-size:11px;font-weight:600;letter-spacing:.02em;border:1.5px solid var(--night-mute);color:var(--night-mute);width:auto;padding:0 6px;height:20px;border-radius:3px;line-height:1}
+.row button.cc:hover{background:transparent;border-color:var(--night-ink);color:var(--night-ink)}
+.row button.cc[aria-pressed="true"]{position:relative;z-index:1;border-color:var(--night-ink);background:var(--night-ink);color:var(--night)}
+.row button.cc+button.cc{margin-left:-1.5px}
+.row .cap button.cc:first-child:not(:last-child){border-radius:3px 0 0 3px}
+.row .cap button.cc:last-child:not(:first-child){border-radius:0 3px 3px 0}
+.row button.cc .zh{font-family:var(--f-cjk);font-weight:500;font-size:12px;letter-spacing:0}
+.video .caps{position:absolute;left:0;right:0;bottom:4%;z-index:4;display:flex;justify-content:center;padding:0 8%;pointer-events:none}
+.video .caps .plate{display:flex;flex-direction:column;align-items:center;gap:.06em;max-width:100%;padding:.3em .75em .36em;border-radius:.3em;background:rgba(14,14,14,.72);color:var(--night-ink);text-align:center;font-family:var(--f-body);font-size:clamp(12px,1.8cqw,24px);line-height:1.3;text-wrap:balance}
+.video .caps .plate:empty{display:none}
+.video .caps .en{font-weight:500;letter-spacing:-.005em}
+.video .caps .zh{font-family:var(--f-cjk);font-weight:400;font-size:.92em;color:#DADADA}
+.video .caps .zh:only-child{color:var(--night-ink)}
+.row button.spd{font-family:var(--f-mono);font-size:12px;color:var(--night-mute);width:auto;padding:0 8px}
+.row button.spd[data-on="1"]{color:var(--night-ink)}
+.row .tm{margin-left:8px;white-space:nowrap}.row .tm b{font-weight:500;color:var(--night-ink)}
+.soon{font-size:13px;font-family:var(--f-body);padding:3px 10px;border-radius:999px;background:var(--night-3);color:var(--night-mute)}
+.pn{display:flex;justify-content:space-between;gap:16px;width:min(100%,calc((100vh - 52px - 56px - 64px) * 16 / 9));margin-top:14px}
+.pn a{display:flex;align-items:center;gap:8px;color:var(--night-mute);font-size:13px;padding:6px 8px;border-radius:8px;max-width:48%}
+.pn a:hover{color:var(--night-ink);background:var(--night-2)}
+.pn a span{display:flex;flex-direction:column;min-width:0}
+.pn a small{font-size:12px}.pn a b{font-weight:500;color:var(--night-ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pn a svg{width:18px;height:18px;flex:none}
+.pn .next{text-align:right}
+.video .upnext{position:absolute;right:16px;bottom:16px;z-index:4;display:flex;flex-direction:column;gap:2px;padding:10px 14px;border-radius:8px;background:var(--night);color:var(--night-ink);box-shadow:var(--elev3);font-size:13px}
+.video .upnext small{color:var(--night-mute);font-size:12px}
+.video .upnext b{font-weight:500}
+.video .upnext:hover{background:#000}
+.centre:fullscreen{background:var(--night);justify-content:center;padding:24px}
+.centre:fullscreen .pn{display:none}
+.centre:fullscreen .player{width:min(100%,calc((100vh - 48px - 64px) * 16 / 9))}
+.recap{background:var(--night-2);border-radius:12px;padding:18px 20px 20px}
+.recap ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.recap li{display:grid;grid-template-columns:24px minmax(0,1fr);gap:6px;font-size:14px;line-height:1.5;color:var(--night-ink)}
+.recap li i{font-style:normal;font-family:var(--f-mono);font-size:13px;color:var(--night-mute);padding-top:2px}
+.recap .katex{color:var(--night-ink)}
+.nextcard{display:grid;grid-template-columns:88px minmax(0,1fr);gap:12px;align-items:center;color:var(--night-ink);padding:10px;border-radius:12px;background:var(--night-2);transition:background .15s}
+.nextcard:hover{background:var(--night-3)}
+.nextcard .thumb{border-radius:6px;box-shadow:none}
+.nextcard .nb{display:flex;flex-direction:column;gap:1px}
+.nextcard small{font-size:12px;color:var(--night-mute)}
+.nextcard b{font-size:14px;font-weight:500;line-height:1.3}
+.katex{font-size:1.04em}
+@media (max-width:920px){
+  header.top .crumbs{display:none}
+  .books,.grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .pn{width:100%}
+  .stage{min-height:0;display:block}
+  .app{grid-template-columns:minmax(0,1fr)}
+  .side{display:none}
+  .stage .wrap{grid-template-columns:1fr 1fr;gap:24px 32px}
+  .stage .centre{grid-column:1 / -1;order:-1}
+  .player{width:100%}
+  details.ch .body{padding-left:4px}
+}
+@media (max-width:600px){
+  .wrap,header.top .wrap,.band .wrap,.stage .wrap{padding-left:20px;padding-right:20px}
+  .books,.grid,.tools{grid-template-columns:1fr}
+  .tool{grid-template-columns:minmax(0,2fr) minmax(0,3fr)}
+  .stage .wrap{grid-template-columns:1fr;padding:16px 20px 24px}
+  .player{border-radius:8px}.video .play{width:64px;height:64px}.video .play svg{width:24px;height:24px}
+  details.ch summary{grid-template-columns:40px minmax(0,1fr) 24px}details.ch summary .meta{display:none}
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body class="lesson" data-key="P1/01-algebraic-expressions/1.1-index-laws.html">
+<header class="top"><div class="wrap">
+  <a class="brand" href="../../index.html"><svg class="mark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-label="Py"><path d="M3.5 6.5c1.5 0 2.5-.6 3-1.5"></path><path d="M5 6.5h15.5"></path><path d="M8.5 6.5v12.5"></path><path d="M15.5 6.5v9.5c0 1.8 1.2 2.9 2.8 2.9.9 0 1.6-.3 2.2-.9"></path></svg><span>Study</span></a>
+  <nav class="crumbs" aria-label="Breadcrumb"><a href="../../index.html">Pearson Edexcel International A Level</a><i>/</i><a href="../index.html">Pure Mathematics 1</a><i>/</i><a href="../index.html#ch1">Chapter 1</a></nav>
+</div></header>
+<div class="app">
+<aside class="side" aria-label="Library">
+  <button class="otog" type="button" aria-label="Library" aria-expanded="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"></rect><path d="M9 4v16"></path></svg></button>
+  <div class="sbody"><div class="sq">Pearson Edexcel International A Level</div><a class="sb cur" href="../index.html"><span class="n">P1</span><span class="tt">Pure Mathematics 1</span></a><details class="sch" open><summary><span class="n">1</span><span class="tt">Algebraic expressions</span><span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></span></summary><ol><li class=cur data-key="P1/01-algebraic-expressions/1.1-index-laws.html"><a href="1.1-index-laws.html" aria-current=page><span class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></span><span class="n">1.1</span><span class="tt">Index laws</span><span class="d">4:23</span></a></li><li data-key="P1/01-algebraic-expressions/1.2-expanding-brackets.html"><a href="1.2-expanding-brackets.html"><span class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></span><span class="n">1.2</span><span class="tt">Expanding brackets</span><span class="d">3:39</span></a></li><li data-key="P1/01-algebraic-expressions/1.3-factorising.html"><a href="1.3-factorising.html"><span class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></span><span class="n">1.3</span><span class="tt">Factorising</span><span class="d">3:58</span></a></li><li data-key="P1/01-algebraic-expressions/1.4-fractional-indices.html"><a href="1.4-fractional-indices.html"><span class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></span><span class="n">1.4</span><span class="tt">Negative and fractional indices</span><span class="d">3:58</span></a></li><li data-key="P1/01-algebraic-expressions/1.5-surds.html"><a href="1.5-surds.html"><span class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></span><span class="n">1.5</span><span class="tt">Surds</span><span class="d">4:08</span></a></li><li data-key="P1/01-algebraic-expressions/1.6-rationalising-denominators.html"><a href="1.6-rationalising-denominators.html"><span class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></span><span class="n">1.6</span><span class="tt">Rationalising denominators</span><span class="d">3:48</span></a></li><li data-key="P1/01-algebraic-expressions/review.html"><a href="review.html"><span class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></span><span class="n">review</span><span class="tt">Chapter 1 review</span><span class="d">3:03</span></a></li><li data-key="P1/01-algebraic-expressions/exam-questions.html"><a href="exam-questions.html"><span class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></span><span class="n">exam</span><span class="tt">Chapter 1 exam questions</span><span class="d">3:10</span></a></li></ol></details></div>
+</aside>
+<div id="app">
+<section class="stage"><div class="wrap">
+  <div class="rail">
+    <div>
+      <h1><span class="num">1.1</span>Index laws</h1>
+      <p class="lede">Four rules for powers of the same base, and the two ways examiners test them.</p>
+    </div>
+    <section><h3 class="h3">In this lesson</h3><ol class="timeline" data-total="263"><span class="fill"></span><li><a href="#t=0" data-t="0" data-frame="1.1-index-laws.s01.jpg"><span class="t">0:00</span><span>Title</span></a></li><li><a href="#t=23" data-t="23" data-frame="1.1-index-laws.s02.jpg"><span class="t">0:23</span><span>The four index laws</span></a></li><li><a href="#t=79" data-t="79" data-frame="1.1-index-laws.s03.jpg"><span class="t">1:19</span><span>Worked example 1</span></a></li><li><a href="#t=130" data-t="130" data-frame="1.1-index-laws.s04.jpg"><span class="t">2:10</span><span>Worked example 2</span></a></li><li><a href="#t=164" data-t="164" data-frame="1.1-index-laws.s05.jpg"><span class="t">2:44</span><span>Common mistakes</span></a></li><li><a href="#t=200" data-t="200" data-frame="1.1-index-laws.s06.jpg"><span class="t">3:20</span><span>Exam tip</span></a></li><li><a href="#t=232" data-t="232" data-frame="1.1-index-laws.s07.jpg"><span class="t">3:52</span><span>Recap</span></a></li></ol></section>
+  </div>
+  <div class="centre">
+    <div class="player">
+      <div class="video" data-id="7VwAk8dCJgw" data-title="P1 1.1 Index laws" data-poster="1.1-index-laws.jpg"><img src="1.1-index-laws.jpg" alt="" width="960" height="540"><button class="play" type="button" aria-label="Play"><svg viewBox="0 0 30 34" aria-hidden="true"><path d="M2 2 L28 17 L2 32 Z" fill="#F3F3F3" stroke="#F3F3F3" stroke-width="2" stroke-linejoin="round"></path></svg></button></div>
+      <div class="bar"><div class="seek" role="slider" aria-label="Seek"><div class="segs"><i data-a="0" data-b="23" style="flex:0 0 calc(8.718% - 2px)" title="Title"><b></b></i><i data-a="23" data-b="79" style="flex:0 0 calc(21.226% - 2px)" title="The four index laws"><b></b></i><i data-a="79" data-b="130" style="flex:0 0 calc(19.331% - 2px)" title="Worked example 1"><b></b></i><i data-a="130" data-b="164" style="flex:0 0 calc(12.887% - 2px)" title="Worked example 2"><b></b></i><i data-a="164" data-b="200" style="flex:0 0 calc(13.645% - 2px)" title="Common mistakes"><b></b></i><i data-a="200" data-b="232" style="flex:0 0 calc(12.129% - 2px)" title="Exam tip"><b></b></i><i data-a="232" data-b="263.83" style="flex:0 0 calc(12.065% - 2px)" title="Recap"><b></b></i></div><span class="knob"></span><span class="tip"></span></div><div class="row"><button class="pp" type="button" aria-label="Play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l12-7.5z"></path></svg></button><button class="back" type="button" aria-label="Back 10 seconds"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"></path><path d="M3 4v5h5"></path><text x="12" y="15.5" font-size="8" font-family="IBM Plex Sans,sans-serif" font-weight="600" fill="currentColor" stroke="none" text-anchor="middle">10</text></svg></button><button class="fwd" type="button" aria-label="Forward 10 seconds"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-3-6.7"></path><path d="M21 4v5h-5"></path><text x="12" y="15.5" font-size="8" font-family="IBM Plex Sans,sans-serif" font-weight="600" fill="currentColor" stroke="none" text-anchor="middle">10</text></svg></button><span class="tm"><b class="cur">0:00</b> / <span class="tot">4:23</span></span><span class="sp"></span><span class="cap"><button class="cc" data-lang="en" type="button" aria-pressed="false" aria-label="English captions"><span>EN</span></button><button class="cc" data-lang="zh" type="button" aria-pressed="false" aria-label="中文字幕"><span class="zh">中</span></button></span><button class="spd" type="button" aria-label="Playback speed">1×</button><button class="fs" type="button" aria-label="Full screen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"></path></svg></button></div></div><script type="application/json" class="cues">{"en": [[0.0, 4.246, "Welcome. This is section one point one, index laws."], [4.246, 8.165, "Powers turn up in almost every chapter of this course:"], [8.165, 12.012, "differentiation, integration, the binomial expansion."], [12.012, 16.01, "So the four rules for handling them need to be automatic."], [16.01, 19.196, "We will meet the rules one at a time, try them on a plain"], [19.196, 23.108, "example, and then on the kind of fraction the exam likes to ask about."], [23.108, 26.146, "Here are the four laws, one at a time."], [26.146, 29.999, "First, multiplying powers of the same base: add the indices."], [29.999, 33.053, "x squared times x to the five is x to"], [33.053, 36.519, "the seven, because two plus five is seven."], [36.519, 40.479, "Second, dividing: subtract the indices."], [40.479, 46.431, "b to the seven over b to the four is b cubed. Four of the seven cancel."], [46.431, 50.391, "Third, a power of a power: multiply the indices."], [50.391, 54.423, "a cubed, all squared, is a to the six."], [54.423, 60.234, "Fourth, a power of a product applies to every factor, the number included."], [60.234, 65.58, "Three x, all squared, is nine x squared, not three x squared."], [65.58, 70.645, "One condition sits over all four. The base must be the same."], [70.645, 75.317, "Two cubed times three squared has no shortcut."], [75.317, 79.288, "You just work it out: eight times nine is seventy-two."], [79.288, 82.014, "Three quick ones, to get the rules"], [82.014, 85.381, "moving. Two r squared times three r cubed."], [85.381, 90.834, "Numbers together, letters together, and on the r, add the indices."], [90.834, 97.14, "Two times three is six. Two plus three is five. Six r to the five."], [97.14, 100.818, "Next, b to the seven over b to the four."], [100.818, 105.029, "A fraction is a division, so subtract the indices."], [105.029, 108.101, "Seven minus four is three. b cubed."], [108.101, 113.981, "Last one: a cubed, all squared, times two a squared."], [113.981, 116.2, "Deal with the bracket first."], [116.2, 121.299, "A power of a power, so multiply: three times two, a to the six."], [121.299, 127.499, "Then multiply by two a squared. Same base, so add: six plus two."], [127.499, 130.723, "Two a to the eight."], [130.723, 135.681, "Now the exam favourite. A sum on top, a single term underneath."], [135.681, 138.612, "You cannot cancel across a plus sign."], [138.612, 141.269, "So split the fraction, and divide each"], [141.269, 144.065, "term of the numerator by five x squared."], [144.065, 146.604, "Treat each piece separately."], [146.604, 149.901, "Twenty over five is four, and x to the seven"], [149.901, 153.124, "over x squared is x to the seven minus two."], [153.124, 155.904, "Fifteen over five is three, and x cubed"], [155.904, 158.97, "over x squared is x to the three minus two."], [158.97, 159.482, "Tidy up."], [159.482, 162.032, "Four x to the five, plus three x to"], [162.032, 164.946, "the one, which we just write as three x."], [164.946, 168.018, "Two slips that cost marks every year."], [168.018, 170.677, "First: when a bracket is raised to a power,"], [170.677, 174.077, "everything inside is raised, including the coefficient."], [174.077, 178.822, "Three x squared, all cubed, is twenty-seven x to the six."], [178.822, 181.967, "The three gets cubed too."], [181.967, 186.353, "Second: the laws are for multiplying and dividing."], [186.353, 189.246, "There is no law for adding powers."], [189.246, 194.592, "x to the seven plus x to the four stays exactly as it is."], [194.592, 200.09, "And if that sum sits over x cubed, divide it term by term."], [200.09, 202.736, "A two mark simplify question."], [202.736, 204.811, "Bracket first: four cubed is"], [204.811, 208.368, "sixty-four, and x squared cubed is x to the six."], [208.368, 213.219, "Then divide by two x to the five. Sixty-four over two is thirty-two."], [213.219, 217.392, "x to the six over x to the five is x."], [217.392, 219.498, "Write that subtraction of indices"], [219.498, 222.243, "down, because that line is the method mark."], [222.243, 224.782, "Before you move on, check."], [224.782, 228.635, "No brackets left, and no fraction that could still cancel."], [228.635, 232.145, "Thirty-two x is finished."], [232.145, 235.203, "To recap. The laws work for the same"], [235.203, 238.771, "base only. Multiply means add the indices."], [238.771, 241.737, "Divide means subtract them."], [241.737, 246.123, "A power of a power multiplies the indices."], [246.123, 250.548, "A power of a product applies to every factor, the number included."], [250.548, 255.399, "When a sum sits over a single term, divide each term separately."], [255.399, 259.252, "And there is no law for adding powers."], [259.252, 263.828, "Next time, section one point two: expanding brackets."]], "zh": [[0.0, 4.246, "欢迎。这是第一章第一节：指数法则。"], [4.246, 12.012, "幂在这门课程几乎每一章都会出现：微分、积分、二项式展开。"], [12.012, 16.01, "所以处理幂的四条法则必须做到熟练自如。"], [16.01, 23.108, "我们会一条一条地学习这些法则，先用在一个简单例子上，再用在考试最爱考的那种分式上。"], [23.108, 26.146, "下面是四条法则，一条一条来。"], [26.146, 29.999, "第一，同底数的幂相乘：指数相加。"], [29.999, 36.519, "x 的平方乘以 x 的五次方等于 x 的七次方，因为二加五等于七。"], [36.519, 40.479, "第二，相除：指数相减。"], [40.479, 46.431, "b 的七次方除以 b 的四次方等于 b 的三次方。七个里面约掉了四个。"], [46.431, 50.391, "第三，幂的幂：指数相乘。"], [50.391, 54.423, "a 的三次方再平方，等于 a 的六次方。"], [54.423, 60.234, "第四，积的幂作用在每一个因子上，系数也包括在内。"], [60.234, 65.58, "三 x 整体平方等于九 x 的平方，而不是三 x 的平方。"], [65.58, 70.645, "四条法则有一个共同前提：底数必须相同。"], [70.645, 75.317, "二的三次方乘以三的平方没有捷径。"], [75.317, 79.288, "只能直接算：八乘九等于七十二。"], [79.288, 85.381, "先来三道小题，热热身。二 r 的平方乘以三 r 的三次方。"], [85.381, 90.834, "数字和数字一起，字母和字母一起，r 的指数相加。"], [90.834, 97.14, "二乘三等于六，二加三等于五。六 r 的五次方。"], [97.14, 100.818, "接下来，b 的七次方除以 b 的四次方。"], [100.818, 105.029, "分数就是除法，所以指数相减。"], [105.029, 108.101, "七减四等于三。b 的三次方。"], [108.101, 113.981, "最后一题：a 的三次方整体平方，再乘以二 a 的平方。"], [113.981, 116.2, "先处理括号。"], [116.2, 121.299, "幂的幂，所以指数相乘：三乘二，得 a 的六次方。"], [121.299, 127.499, "再乘以二 a 的平方。底数相同，所以指数相加：六加二。"], [127.499, 130.723, "二 a 的八次方。"], [130.723, 135.681, "现在来看考试最爱考的题型：分子是一个和，分母是一个单项式。"], [135.681, 138.612, "加号两边不能直接约分。"], [138.612, 144.065, "所以把分式拆开，分子的每一项分别除以五 x 的平方。"], [144.065, 146.604, "每一部分分开处理。"], [146.604, 153.124, "二十除以五等于四，x 的七次方除以 x 的平方等于 x 的七减二次方。"], [153.124, 158.97, "十五除以五等于三，x 的三次方除以 x 的平方等于 x 的三减二次方。"], [158.97, 159.482, "整理一下。"], [159.482, 164.946, "四 x 的五次方，加三 x 的一次方，一次方我们直接写成三 x。"], [164.946, 168.018, "两个每年都在丢分的错误。"], [168.018, 174.077, "第一：括号整体乘方时，括号里的每一项都要乘方，系数也不例外。"], [174.077, 178.822, "三 x 的平方整体立方，等于二十七 x 的六次方。"], [178.822, 181.967, "那个三也要立方。"], [181.967, 186.353, "第二：这些法则只适用于乘法和除法。"], [186.353, 189.246, "幂的加法没有法则。"], [189.246, 194.592, "x 的七次方加 x 的四次方，就保持原样不动。"], [194.592, 200.09, "如果这个和再除以 x 的三次方，就逐项相除。"], [200.09, 202.736, "一道两分的化简题。"], [202.736, 208.368, "先算括号：四的三次方等于六十四，x 的平方再立方等于 x 的六次方。"], [208.368, 213.219, "再除以二 x 的五次方。六十四除以二等于三十二。"], [213.219, 217.392, "x 的六次方除以 x 的五次方等于 x。"], [217.392, 222.243, "把指数相减这一步写下来，因为方法分就在这一行。"], [222.243, 224.782, "往下做之前，先检查。"], [224.782, 228.635, "没有剩下的括号，也没有还能约分的分数。"], [228.635, 232.145, "三十二 x 就是最终答案。"], [232.145, 238.771, "总结一下。法则只对相同底数成立。相乘就是指数相加。"], [238.771, 241.737, "相除就是指数相减。"], [241.737, 246.123, "幂的幂，指数相乘。"], [246.123, 250.548, "积的幂作用在每一个因子上，系数也包括在内。"], [250.548, 255.399, "一个和除以一个单项式时，逐项相除。"], [255.399, 259.252, "幂的加法没有法则。"], [259.252, 263.828, "下一节，第一章第二节：展开括号。"]]}</script>
+    </div>
+    <div class="pn"><span></span><a class="next" href="1.2-expanding-brackets.html" data-next="1"><span><small>Next</small><b>1.2 Expanding brackets</b></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></a></div>
+  </div>
+  <div class="rail">
+    <section class="recap"><h3 class="h3">Recap</h3><ol><li><i>1</i><span>Same base only: multiply means add the indices, divide means subtract.</span></li><li><i>2</i><span>A power of a power: multiply the indices. A power of a product: apply it to every factor, the number included.</span></li><li><i>3</i><span>A sum over a single term: divide each term separately.</span></li><li><i>4</i><span>There is no law for adding powers. \( x^{7} + x^{4} \) stays as it is.</span></li></ol></section>
+    <a class="nextcard" href="1.2-expanding-brackets.html"><div class="thumb"><img src="1.2-expanding-brackets.card.jpg" alt="" loading="lazy" width="960" height="540"></div><span class="nb"><small>Up next · 1.2</small><b>Expanding brackets</b><small>3:39</small></span></a><a class="nextcard exam" href="exam-questions.html"><div class="thumb"><img src="exam-questions.card.jpg" alt="" loading="lazy" width="960" height="540"></div><span class="nb"><small>Chapter 1</small><b>Exam questions</b><small>3:10</small></span></a>
+  </div>
+</div></section>
+</div>
+</div>
+<script src="../../katex/katex.min.js"></script>
+<script src="../../katex/auto-render.min.js"></script>
+<script>
+(function(){
+  /* The player is YouTube's; the picture is ours. YouTube draws its own
+     chrome on the frame while loading, for ~3 s after any state change,
+     while paused, while buffering, and at the end. The rule: whenever the
+     frame is not simply playing clean, the rendered slide covers it. */
+  var player=null, timer=null, pending=0, video=null, poster='', grace=null, watchdog=null;
+  /* captions are drawn by the page from the cue tracks inline in the lesson;
+     which languages show is remembered per browser. First visit: a Chinese
+     browser gets English and 中文, any other gets English. */
+  var cues={}, caps=null, lastCaps=null, capShown=null;
+  function capDefault(){ var zh=/^zh/i.test(navigator.language||''); return {en:true, zh:zh}; }
+  try{ caps=JSON.parse(localStorage.getItem('caps')||'null'); }catch(e){}
+  if(!caps || typeof caps!=='object') caps=capDefault();
+  var GRACE_MS=3600;
+  var PLAY='<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l12-7.5z"></path></svg>';
+  var PAUSE='<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 4.5h4.5v15H6zM13.5 4.5H18v15h-4.5z"></path></svg>';
+  var PLAYBIG='<svg viewBox="0 0 30 34" aria-hidden="true"><path d="M2 2 L28 17 L2 32 Z" fill="#F3F3F3" stroke="#F3F3F3" stroke-width="2" stroke-linejoin="round"></path></svg>';
+  var RATES=[0.75,1,1.25,1.5,1.75,2], rate=1;
+  try{ rate=parseFloat(localStorage.getItem('rate'))||1; if(RATES.indexOf(rate)<0) rate=1; }catch(e){}
+  function q(sel){ return document.querySelector(sel); }
+  function clock(s){ s=Math.max(0,Math.floor(s)); return Math.floor(s/60)+':'+('0'+s%60).slice(-2); }
+  function marks(){ return Array.prototype.slice.call(document.querySelectorAll('.timeline a[data-t]')); }
+  function total(){ var d=player&&player.getDuration?player.getDuration():0; return d||parseFloat((q('.timeline')||{dataset:{}}).dataset.total)||0; }
+  function now(){ return player&&player.getCurrentTime?player.getCurrentTime():pending; }
+  function frameFor(t){
+    var src=''; marks().forEach(function(a){ if(parseFloat(a.dataset.t)<=t+0.5 && a.dataset.frame) src=a.dataset.frame; });
+    return src || (video&&video.dataset.poster) || '';
+  }
+  function hold(state, t){   // 'paused' | 'grace' | 'hold' | ''
+    if(!video) return;
+    var held=video.querySelector('.held'); if(!held) return;
+    clearTimeout(grace); grace=null;
+    video.classList.remove('paused','grace');
+    if(!state) return;
+    var src=frameFor(t==null?now():t);
+    if(src) held.querySelector('img').src=src;
+    video.classList.add(state==='paused'?'paused':'grace');
+    if(state==='grace') grace=setTimeout(function(){ video.classList.remove('grace'); }, GRACE_MS);
+  }
+  function paint(t, dur){
+    var tl=q('.timeline');
+    if(tl){
+      var ms=marks(), cur=-1;
+      ms.forEach(function(a,i){ if(parseFloat(a.dataset.t)<=t+0.5) cur=i; });
+      ms.forEach(function(a,i){ a.classList.toggle('done', i<cur); a.classList.toggle('now', i===cur); });
+      var fill=tl.querySelector('.fill');
+      if(fill && ms.length){
+        var top=ms[0].offsetTop+14, span=ms[ms.length-1].offsetTop+14-top, frac=dur?Math.max(0,Math.min(1,t/dur)):0;
+        fill.style.top=top+'px'; fill.style.height=Math.max(0,span*frac)+'px';
+      }
+    }
+    var c=q('.bar .cur'); if(c) c.textContent=clock(t);
+    if(dur){
+      var frac2=Math.max(0,Math.min(1,t/dur));
+      document.querySelectorAll('.seek .segs i').forEach(function(seg){
+        var a=parseFloat(seg.dataset.a), b=parseFloat(seg.dataset.b), f=(t-a)/(b-a);
+        seg.querySelector('b').style.width=(100*Math.max(0,Math.min(1,f)))+'%';
+      });
+      var knob=q('.seek .knob'); if(knob) knob.style.left=(100*frac2)+'%';
+    }
+  }
+  function playing(){ return player && player.getPlayerState && player.getPlayerState()===YT.PlayerState.PLAYING; }
+  function icon(){ var b=q('.bar .pp'); if(!b) return; b.innerHTML=playing()?PAUSE:PLAY; b.setAttribute('aria-label', playing()?'Pause':'Play'); }
+  function tick(){
+    if(!player || !player.getCurrentTime) return;
+    var t=player.getCurrentTime(), d=player.getDuration()||0;
+    paint(t, d); paintCaps(t);
+    if(d && t/d>0.9) markWatched();
+    if(d && d-t<0.8 && !video.classList.contains('grace') && !video.classList.contains('paused')) hold('hold', t);
+  }
+  /* what has been watched, per browser: a tick in the outline and on the book page */
+  function watched(){ try{ return JSON.parse(localStorage.getItem('watched')||'{}')||{}; }catch(e){ return {}; } }
+  function markWatched(){
+    var key=document.body.dataset.key; if(!key) return;
+    var w=watched(); if(w[key]) return; w[key]=1;
+    try{ localStorage.setItem('watched', JSON.stringify(w)); }catch(e){}
+    paintWatched(document);
+  }
+  function paintWatched(scope){
+    var w=watched();
+    scope.querySelectorAll('[data-key]').forEach(function(el){ if(el.dataset.key && w[el.dataset.key]) el.classList.add('done'); });
+  }
+  function stop(ended){
+    clearInterval(timer); timer=null; clearTimeout(grace); grace=null; clearTimeout(watchdog); watchdog=null;
+    if(player && player.destroy){ try{player.destroy();}catch(e){} }
+    player=null;
+    if(video){ video.classList.remove('paused','grace'); video.innerHTML=poster;
+      var b=video.querySelector('.play'); if(b) b.addEventListener('click', function(){ mount(0); });
+      var nx=q('.pn a[data-next]');
+      if(ended && nx){
+        var up=document.createElement('a'); up.className='upnext'; up.href=nx.getAttribute('href');
+        up.innerHTML='<small>'+nx.querySelector('small').textContent+'</small><b>'+nx.querySelector('b').textContent+'</b>';
+        video.appendChild(up);
+      }
+    }
+    paint(0, total()); icon();
+  }
+  function speed(r){
+    rate=r; try{localStorage.setItem('rate',String(r));}catch(e){}
+    var b=q('.bar .spd'); if(b){ b.textContent=(r%1?r:r.toFixed(0))+'×'; b.dataset.on=r===1?'0':'1'; }
+    if(player && player.setPlaybackRate) player.setPlaybackRate(r);
+  }
+  function speedStep(d){ var i=RATES.indexOf(rate); speed(RATES[Math.max(0,Math.min(RATES.length-1,i+d))]); }
+  function ready(){
+    video=q('.video[data-id]'); if(!video || player) return;
+    poster=poster||video.innerHTML;
+    var host=document.createElement('div'); host.className='yt';
+    var shield=document.createElement('div'); shield.className='shield'; shield.title='Click to pause, double-click for full screen';
+    var held=document.createElement('div'); held.className='held';
+    held.innerHTML='<img alt=""><button class="play" type="button" aria-label="Play">'+PLAYBIG+'</button>';
+    var capbox=document.createElement('div'); capbox.className='caps'; capbox.setAttribute('aria-live','off'); capbox.innerHTML='<div class="plate"></div>';
+    video.innerHTML=''; video.appendChild(host); video.appendChild(shield); video.appendChild(held); video.appendChild(capbox);
+    capShown=null; paintCaps(pending);
+    [shield, held].forEach(function(el){
+      el.addEventListener('click', toggle);
+      el.addEventListener('dblclick', function(){ fullscreen(); });
+    });
+    hold('hold', pending);
+    clearTimeout(watchdog);
+    watchdog=setTimeout(function(){
+      if(player && player.getPlayerState && player.getPlayerState()!==YT.PlayerState.PLAYING && player.getPlayerState()!==YT.PlayerState.BUFFERING) hold('paused', pending);
+    }, 5000);
+    player=new YT.Player(host,{videoId:video.dataset.id,host:'https://www.youtube-nocookie.com',
+      playerVars:{controls:0,disablekb:1,fs:0,rel:0,iv_load_policy:3,modestbranding:1,autoplay:1,playsinline:1,cc_load_policy:3,start:pending||0},
+      events:{
+        onReady:function(e){
+          var f=e.target.getIframe(); if(f){ f.tabIndex=-1; f.setAttribute('aria-hidden','true'); f.style.pointerEvents='none'; }
+          e.target.setPlaybackRate(rate);
+          try{ e.target.unloadModule('captions'); }catch(x){}   // the page draws captions; YouTube's stay off
+          if(pending>0) e.target.seekTo(pending,true);   // a marker clicked while loading
+          e.target.playVideo(); tick();
+        },
+        onStateChange:function(e){
+          clearInterval(timer); timer=null;
+          var S=YT.PlayerState;
+          if(e.data===S.ENDED){ markWatched(); stop(true); return; }
+          if(e.data===S.PLAYING){ clearTimeout(watchdog); timer=setInterval(tick,250); hold('grace'); try{ e.target.unloadModule('captions'); }catch(x){} }
+          else if(e.data===S.BUFFERING){ hold('hold'); }
+          else if(e.data===S.PAUSED || e.data===S.CUED){ hold('paused'); }
+          tick(); icon();
+        },
+        onError:function(){ stop(false); var tm=q('.bar .tm'); if(tm) tm.textContent='Video unavailable'; }
+      }});
+  }
+  function mount(start){
+    pending=start||0;
+    if(player && player.seekTo){ hold('grace', pending); player.seekTo(pending,true); player.playVideo(); return; }
+    if(player) return;                            // loading: pending is applied on ready
+    if(window.YT && YT.Player){ ready(); return; }
+    window.onYouTubeIframeAPIReady=ready;
+    if(!document.getElementById('ytapi')){ var s=document.createElement('script'); s.id='ytapi'; s.src='https://www.youtube.com/iframe_api'; document.head.appendChild(s); }
+  }
+  function toggle(){ if(!player || !player.playVideo){ mount(pending); return; } playing()? player.pauseVideo() : player.playVideo(); }
+  function seekTo(t){ if(!player || !player.seekTo){ mount(t); return; } hold('grace', t); player.seekTo(Math.max(0,t),true); if(!playing()) player.playVideo(); tick(); }
+  function seekBy(d){ seekTo(now()+d); }
+  function fullscreen(){
+    var c=q('.centre'); if(!c) return;
+    if(document.fullscreenElement){ document.exitFullscreen(); }
+    else if(c.requestFullscreen){ c.requestFullscreen(); }
+  }
+  function langs(){ return Object.keys(cues); }
+  function capOn(code){ return !!(caps[code] && cues[code]); }
+  function anyCap(){ return langs().some(capOn); }
+  function setCaps(o){
+    caps=o; try{ localStorage.setItem('caps', JSON.stringify(o)); }catch(e){}
+    document.querySelectorAll('.bar .cc[data-lang]').forEach(function(b){ b.setAttribute('aria-pressed', String(capOn(b.dataset.lang))); });
+    capShown=null; paintCaps(now());
+    if(player && player.unloadModule){ try{ player.unloadModule('captions'); }catch(e){} }
+  }
+  function toggleCap(code){ var o={}; for(var k in caps) o[k]=caps[k]; o[code]=!o[code]; setCaps(o); }
+  function capsKey(){   // c: everything off, or back to what was on
+    if(anyCap()){ lastCaps=caps; var off={}; for(var k in caps) off[k]=false; setCaps(off); }
+    else { var on=lastCaps && Object.keys(lastCaps).some(function(k){ return lastCaps[k]; }) ? lastCaps : capDefault(); setCaps(on); }
+  }
+  function cueAt(list, t){ for(var i=0;i<list.length;i++){ if(t>=list[i][0] && t<list[i][1]) return list[i][2]; } return ''; }
+  function paintCaps(t){
+    var box=video && video.querySelector('.caps .plate'); if(!box) return;
+    var parts=[], key='';
+    ['en','zh'].concat(langs().filter(function(k){ return k!=='en' && k!=='zh'; })).forEach(function(k){
+      if(!capOn(k)) return; var s=cueAt(cues[k], t); if(!s) return;
+      parts.push({k:k, s:s}); key+=k+'|'+s+'\n';
+    });
+    if(key===capShown) return;
+    capShown=key; box.textContent='';
+    parts.forEach(function(p){ var el=document.createElement('span'); el.className=p.k; el.textContent=p.s; box.appendChild(el); });
+  }
+  function sideOpen(open){
+    document.body.classList.toggle('side-open', open);
+    var b=q('.otog'); if(b) b.setAttribute('aria-expanded', String(open));
+    try{ localStorage.setItem('side', open?'1':'0'); }catch(e){}
+  }
+  function wire(scope){
+    player=null; clearInterval(timer); poster=''; capShown=null;
+    var src=scope.querySelector('.player .cues'); if(src){ cues={}; try{ cues=JSON.parse(src.textContent)||{}; }catch(e){} }
+    paintWatched(scope);
+    scope.querySelectorAll('.side li.cur > a').forEach(function(a){ a.addEventListener('click', function(ev){ ev.preventDefault(); }); });
+    var cur=document.querySelector('.side li.cur'); if(cur && cur.scrollIntoView) cur.scrollIntoView({block:'nearest'});
+    scope.querySelectorAll('.video[data-id] .play').forEach(function(b){ b.addEventListener('click', function(){ mount(0); }); });
+    scope.querySelectorAll('.timeline a[data-t]').forEach(function(a){
+      a.addEventListener('click', function(ev){ if(!q('.video[data-id]')) return; ev.preventDefault(); seekTo(parseFloat(a.dataset.t)); });
+    });
+    var on=function(sel, fn){ var el=scope.querySelector(sel); if(el) el.addEventListener('click', fn); };
+    on('.bar .pp', toggle); on('.bar .fs', fullscreen);
+    on('.bar .back', function(){ seekBy(-10); }); on('.bar .fwd', function(){ seekBy(10); });
+    scope.querySelectorAll('.bar .cc[data-lang]').forEach(function(b){
+      b.setAttribute('aria-pressed', String(capOn(b.dataset.lang)));
+      b.addEventListener('click', function(){ toggleCap(b.dataset.lang); });
+    });
+    on('.bar .spd', function(){ speed(RATES[(RATES.indexOf(rate)+1)%RATES.length]); });
+    speed(rate);
+    var seek=scope.querySelector('.seek');
+    if(seek){
+      var frac=function(ev){ var r=seek.getBoundingClientRect(); return Math.max(0,Math.min(1,(ev.clientX-r.left)/r.width)); };
+      seek.addEventListener('click', function(ev){ seekTo(frac(ev)*total()); });
+      seek.addEventListener('mousemove', function(ev){
+        var f=frac(ev), t=f*total(), tip=seek.querySelector('.tip'), name='';
+        marks().forEach(function(a){ if(parseFloat(a.dataset.t)<=t+0.5) name=a.querySelector('span:last-child').textContent; });
+        if(tip){ tip.style.left=(100*f)+'%'; tip.textContent=(name?name+' · ':'')+clock(t); }
+      });
+    }
+    if(window.renderMathInElement) renderMathInElement(scope,{delimiters:[{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false,strict:'ignore',trust:true});
+  }
+  document.addEventListener('keydown', function(ev){
+    if(!q('.video[data-id]') || /input|textarea|select|button/i.test(ev.target.tagName)) return;
+    if(ev.key===' '||ev.key==='k'){ ev.preventDefault(); toggle(); }
+    else if(ev.key==='ArrowRight'){ ev.preventDefault(); seekBy(5); }
+    else if(ev.key==='ArrowLeft'){ ev.preventDefault(); seekBy(-5); }
+    else if(ev.key==='j'){ seekBy(-10); } else if(ev.key==='l'){ seekBy(10); }
+    else if(ev.key==='f'){ fullscreen(); }
+    else if(ev.key==='c'){ capsKey(); }
+    else if(ev.key==='>'||ev.key==='.'){ speedStep(1); }
+    else if(ev.key==='<'||ev.key===','){ speedStep(-1); }
+  });
+  function openChapter(){
+    var h=/^#ch(\d+)$/.exec(location.hash); if(!h) return;
+    var d=document.getElementById('ch'+h[1]); if(d){ d.open=true; d.scrollIntoView({block:'start'}); }
+  }
+  window.addEventListener('hashchange', openChapter);
+  var ot=document.querySelector('.otog');
+  if(ot){ var open=true; try{ open=localStorage.getItem('side')!=='0'; }catch(e){}
+    sideOpen(open); ot.addEventListener('click', function(){ sideOpen(!document.body.classList.contains('side-open')); }); }
+  window.__wire=wire;
+  if(!document.body.dataset.preview){
+    wire(document); openChapter();
+    var m=/^#t=(\d+)/.exec(location.hash); if(m && q('.video[data-id]')) mount(parseInt(m[1],10));
+  }
+})();
+</script>
+</body>
+</html>

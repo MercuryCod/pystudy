@@ -1,0 +1,554 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>1.2 Expanding brackets · Pure Mathematics 1 · Pystudy</title>
+<meta name="description" content="Every term in one bracket times every term in the other, then collect what matches.">
+<meta name="theme-color" content="#0E0E0E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23111'/%3E%3Cg transform='translate(4 4)' fill='none' stroke='%23fff' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3.5 6.5c1.5 0 2.5-.6 3-1.5'/%3E%3Cpath d='M5 6.5h15.5'/%3E%3Cpath d='M8.5 6.5v12.5'/%3E%3Cpath d='M15.5 6.5v9.5c0 1.8 1.2 2.9 2.8 2.9.9 0 1.6-.3 2.2-.9'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../../katex/katex.min.css">
+<style>
+/* Monochrome. Type scale 12 14 16 18 20 24 30 36 48; spacing 4 8 12 16 24 32 48 64 96.
+   Elevation: five two-part steps, assigned by height. Emphasis is weight and
+   black-on-white, never a hue. */
+:root{--paper:#FFFFFF;--wash:#F4F4F4;--wash-deep:#E9E9E9;--rule:#D6D6D6;--rule-soft:#E6E6E6;
+--ink:#111111;--ink-soft:#333333;--ink-mute:#6E6E6E;--dim:#A0A0A0;
+--night:#0E0E0E;--night-2:#1A1A1A;--night-3:#272727;--night-4:#3A3A3A;--night-ink:#F3F3F3;--night-mute:#9C9C9C;
+--f-body:'IBM Plex Sans','Helvetica Neue',Arial,sans-serif;--f-mono:'IBM Plex Mono','SF Mono',Menlo,monospace;--f-cjk:'PingFang SC','Hiragino Sans GB','Noto Sans SC','Microsoft YaHei',sans-serif;
+--elev1:0 1px 3px rgba(0,0,0,.10),0 1px 2px rgba(0,0,0,.14);
+--elev2:0 3px 6px rgba(0,0,0,.10),0 2px 4px rgba(0,0,0,.08);
+--elev3:0 10px 20px rgba(0,0,0,.12),0 3px 6px rgba(0,0,0,.08);
+--elev5:0 24px 48px rgba(0,0,0,.28)}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+body.lesson{background:var(--night)}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid currentColor;outline-offset:3px}
+h1,h2,h3{margin:0;text-wrap:balance}
+.wrap{max-width:1180px;margin:0 auto;padding:0 32px}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+/* header: the name, nothing else */
+header.top{position:sticky;top:0;z-index:20;background:var(--night);color:var(--night-ink)}
+body.home header.top{border-bottom:1px solid var(--night-3)}
+header.top .wrap{max-width:none;display:flex;align-items:center;gap:20px;height:52px}
+header.top .brand{display:flex;align-items:center;gap:5px;font-size:18px;letter-spacing:-.01em;color:var(--night-ink);white-space:nowrap}
+header.top .brand .mark{width:22px;height:22px}
+header.top .brand b{font-weight:700}
+header.top .brand span{font-weight:500}
+header.top .brand:hover{color:#fff}
+header.top .brand:hover{color:#fff}
+header.top .crumbs{flex:1;display:flex;align-items:center;gap:8px;min-width:0;font-size:14px;color:var(--night-mute)}
+header.top .crumbs a{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+header.top .crumbs a:hover{color:var(--night-ink)}
+header.top .crumbs i{font-style:normal;color:var(--night-4)}
+/* the app shell: the library sidebar on the left of every page, a rail with
+   one toggle that opens into a panel, its state remembered */
+.app{min-height:calc(100vh - 52px)}
+body.lesson .app{display:grid;grid-template-columns:auto minmax(0,1fr)}
+.side{width:48px;background:var(--night);color:var(--night-ink);border-right:1px solid var(--night-3);display:flex;flex-direction:column;transition:width .2s;position:sticky;top:52px;height:calc(100vh - 52px);overflow:hidden}
+.side[hidden]{display:none}
+body.side-open .side{width:288px}
+.otog{width:48px;height:48px;border:0;background:transparent;color:var(--night-mute);cursor:pointer;display:flex;align-items:center;justify-content:center;flex:none}
+.otog:hover{color:var(--night-ink);background:var(--night-2)}
+.otog svg{width:20px;height:20px}
+.sbody{display:none;padding:4px 12px 24px;min-width:0;overflow:auto;font-size:14px}
+body.side-open .sbody{display:block}
+.side .sq{font-size:12px;color:var(--night-mute);padding:12px 4px 6px}
+.side .sb{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px;align-items:baseline;padding:8px 4px;color:var(--night-ink);font-weight:500;border-radius:6px}
+.side .sb:hover{background:var(--night-2)}
+.side .sb .n{font-family:var(--f-mono);font-size:12px;color:var(--night-mute)}
+.side .sch summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:22px minmax(0,1fr) 18px;align-items:center;gap:6px;padding:7px 4px 7px 12px;color:var(--night-mute);border-radius:6px}
+.side .sch summary::-webkit-details-marker{display:none}
+.side .sch summary:hover{color:var(--night-ink);background:var(--night-2)}
+.side .sch[open] summary{color:var(--night-ink)}
+.side .sch summary .n{font-family:var(--f-mono);font-size:12px}
+.side .sch summary .tt{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.side .sch summary .chev{display:flex;color:var(--night-4);transition:transform .2s}
+.side .sch summary .chev svg{width:14px;height:14px}
+.side .sch[open] summary .chev{transform:rotate(180deg)}
+.side .sch ol{list-style:none;margin:0 0 6px;padding:0 0 0 12px}
+.side .sch li a{display:grid;grid-template-columns:16px minmax(34px,auto) minmax(0,1fr) auto;align-items:baseline;gap:8px;padding:6px 4px 6px 10px;color:var(--night-mute);font-size:13px;border-radius:6px}
+.side .sch li a:hover{color:var(--night-ink);background:var(--night-2)}
+.side .sch li.cur a{color:var(--night-ink);font-weight:500;background:var(--night-2)}
+.side .ok{width:12px;height:12px;border-radius:50%;border:1.5px solid var(--night-4);align-self:center;display:flex;align-items:center;justify-content:center;color:var(--night)}
+.side .ok svg{width:9px;height:9px;display:none}
+.side li.done .ok{background:var(--night-ink);border-color:var(--night-ink)}
+.side li.done .ok svg{display:block}
+.side .n{font-family:var(--f-mono);font-size:12px}
+.side .tt{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.side .d{font-family:var(--f-mono);font-size:11px;color:var(--night-4)}
+.side li.cur .d{color:var(--night-mute)}
+/* the dark band a page opens with */
+.band{background:var(--night);color:var(--night-ink)}
+.band .wrap{padding:56px 32px 56px;display:flex;flex-direction:column;gap:12px}
+.band h1{font-size:clamp(32px,4.2vw,48px);font-weight:600;line-height:1.04;letter-spacing:-.028em;max-width:22ch}
+.band .code{font-family:var(--f-mono);font-size:14px;color:var(--night-mute);margin:0}
+.band .lede{font-size:18px;line-height:1.5;color:var(--night-mute);max-width:60ch;margin:0}
+.band .facts{display:flex;flex-wrap:wrap;gap:8px 24px;margin-top:12px;font-size:14px;color:var(--night-mute)}
+.band .facts b{color:var(--night-ink);font-weight:500}
+/* home: the library */
+.library{padding:48px 0 96px;display:flex;flex-direction:column;gap:56px}
+.series{display:flex;flex-direction:column;gap:20px}
+.series h2{font-size:24px;font-weight:600;letter-spacing:-.02em}
+.series .sub{font-size:14px;color:var(--ink-mute);margin:-12px 0 0}
+.books{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.book{display:flex;flex-direction:column;gap:14px;padding:24px;border-radius:12px;background:var(--wash);color:var(--ink);transition:background .15s}
+.book:hover{background:var(--wash-deep)}
+.book .code{font-family:var(--f-mono);font-size:14px;color:var(--ink-mute)}
+.book b{font-size:22px;font-weight:600;letter-spacing:-.015em;line-height:1.2}
+.book .meta{font-size:14px;color:var(--ink-mute);margin-top:auto}
+/* book page: chapters fold open */
+.chapters{padding:24px 0 96px;display:flex;flex-direction:column}
+details.ch{border-bottom:1px solid var(--rule-soft)}
+details.ch:first-of-type{border-top:1px solid var(--rule-soft)}
+details.ch summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:56px minmax(0,1fr) auto 24px;align-items:baseline;gap:16px;padding:22px 4px}
+details.ch summary::-webkit-details-marker{display:none}
+details.ch summary:hover{background:var(--wash)}
+details.ch summary .n{font-family:var(--f-mono);font-size:14px;color:var(--ink-mute)}
+details.ch summary h2{font-size:22px;font-weight:600;letter-spacing:-.015em}
+details.ch summary .meta{font-size:14px;color:var(--ink-mute);white-space:nowrap}
+details.ch summary .chev{width:24px;height:24px;align-self:center;display:flex;align-items:center;justify-content:center;color:var(--ink-mute);transition:transform .2s}
+details.ch summary .chev svg{width:16px;height:16px}
+details.ch[open] summary .chev{transform:rotate(180deg)}
+details.ch .body{padding:8px 4px 40px 76px;display:flex;flex-direction:column;gap:32px}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px 24px}
+.card{display:flex;flex-direction:column;gap:10px;color:var(--ink)}
+.thumb{position:relative;aspect-ratio:16/9;border-radius:8px;overflow:hidden;background:var(--paper);box-shadow:var(--elev2);transition:transform .2s,box-shadow .2s}
+.thumb::after{content:"";position:absolute;inset:0;border-radius:inherit;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08);pointer-events:none}
+.thumb img{width:100%;height:100%;object-fit:cover}
+.thumb .ph{position:absolute;inset:0;padding:8% 9%;display:flex;flex-direction:column;justify-content:center;gap:4px}
+.thumb .ph b{font-size:clamp(18px,2.2vw,30px);font-weight:600;line-height:1.05;letter-spacing:-.02em}
+.thumb .ph small{font-size:12px;color:var(--ink-mute)}
+.card:hover .thumb,.tool:hover .thumb{transform:translateY(-2px);box-shadow:var(--elev3)}
+.dur{position:absolute;right:8px;bottom:8px;font-family:var(--f-mono);font-size:12px;padding:3px 7px;border-radius:4px;background:rgba(14,14,14,.86);color:var(--night-ink)}
+.play{position:absolute;left:50%;top:50%;width:72px;height:72px;transform:translate(-50%,-50%);border-radius:50%;background:var(--night);border:0;padding:0;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:var(--elev3);transition:transform .15s,background .15s}
+.play svg{width:26px;height:26px;margin-left:4px}
+.play:hover{background:#000;transform:translate(-50%,-50%) scale(1.06)}
+.thumb .play{width:48px;height:48px;opacity:0;transition:opacity .15s}
+.thumb .play svg{width:18px;height:18px;margin-left:3px}
+.card:hover .thumb .play,.tool:hover .thumb .play{opacity:1}
+.cb{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:baseline;padding:0 2px}
+.cb .ok{display:none;color:var(--ink-mute)}.cb .ok svg{width:16px;height:16px}
+.card.done .cb .ok{display:block}
+.tool.done .pill::after{content:" · watched"}
+.cb .sec{font-family:var(--f-mono);font-size:14px;color:var(--ink-mute)}
+.cb .tt{font-size:17px;font-weight:500;line-height:1.3}
+.tools{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.tool{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:16px;align-items:center;padding:12px;border-radius:12px;background:var(--wash);color:var(--ink);transition:background .15s}
+.tool:hover{background:var(--wash-deep)}
+.tool .thumb{border-radius:6px;box-shadow:var(--elev1)}
+.tool .tb{display:flex;flex-direction:column;gap:4px}
+.pill{align-self:flex-start;font-size:12px;font-weight:500;padding:3px 9px;border-radius:999px;background:var(--paper);color:var(--ink-mute)}
+.tool.exam .pill{background:var(--ink);color:var(--paper)}
+.tool b{font-size:17px;font-weight:500;line-height:1.3}
+.tool .tm{font-family:var(--f-mono);font-size:12px;color:var(--ink-mute)}
+/* lesson: the stage fills the window and centres what it holds */
+.stage{background:var(--night);color:var(--night-ink);min-height:calc(100vh - 52px);display:grid;align-content:center}
+.stage .wrap{max-width:none;width:100%;margin:0;display:grid;grid-template-columns:240px minmax(0,1fr) 272px;gap:32px;align-items:start;padding:24px 32px 32px}
+.rail{display:flex;flex-direction:column;gap:24px;font-size:14px}
+.rail .crumbs{display:flex;flex-direction:column;gap:2px;font-size:13px;color:var(--night-mute)}
+.rail .crumbs a:hover{color:var(--night-ink)}
+.rail h1{font-size:26px;font-weight:600;line-height:1.08;letter-spacing:-.024em;margin-top:8px}
+.rail h1 .num{color:var(--night-mute);font-weight:500;margin-right:.2em}
+.rail .lede{font-size:14px;line-height:1.5;color:var(--night-mute);margin:8px 0 0}
+.h3{font-size:13px;font-weight:500;color:var(--night-mute);margin:0 0 8px}
+.timeline{list-style:none;margin:0;padding:0;position:relative}
+.timeline::before,.timeline .fill{content:"";position:absolute;left:5px;top:14px;bottom:14px;width:2px;background:var(--night-3)}
+.timeline .fill{background:var(--night-ink);bottom:auto;height:0;transition:height .4s linear}
+.timeline a{position:relative;display:grid;grid-template-columns:24px 44px minmax(0,1fr);align-items:center;gap:6px;padding:7px 0;color:var(--night-mute);font-size:14px}
+.timeline a::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--night);border:2px solid var(--night-3);margin-left:1px;transition:border-color .15s,background .15s}
+.timeline a:hover{color:var(--night-ink)}.timeline a:hover::before{border-color:var(--night-mute)}
+.timeline a.done::before{border-color:var(--night-ink);background:var(--night-ink)}
+.timeline a.now{color:var(--night-ink);font-weight:500}.timeline a.now::before{border-color:var(--night-ink);background:var(--night)}
+.timeline a .t{font-family:var(--f-mono);font-size:12px;color:var(--night-mute);font-variant-numeric:tabular-nums}
+.centre{display:flex;flex-direction:column;align-items:center;min-width:0}
+/* the player: frame above, one bar below, one object */
+.player{width:min(100%,calc((100vh - 52px - 56px - 64px) * 16 / 9));border-radius:12px;overflow:hidden;background:var(--night-2);box-shadow:var(--elev5),0 0 0 1px rgba(255,255,255,.06)}
+.video{position:relative;aspect-ratio:16/9;background:var(--paper);container-type:inline-size}
+.video img,.video iframe,.video .yt{position:absolute;inset:0;width:100%;height:100%;border:0}
+.video iframe{pointer-events:none}
+.video img{object-fit:cover}
+.video .ph{position:absolute;inset:0;padding:5% 6%;display:flex;flex-direction:column;justify-content:center;gap:8px;color:var(--ink)}
+.video .ph b{font-size:clamp(28px,4vw,56px);font-weight:600;line-height:1.04;letter-spacing:-.024em;max-width:70%}
+.video .ph span{font-size:clamp(14px,1.4vw,20px);color:var(--ink-mute);max-width:70%}
+.video .play{width:84px;height:84px}.video .play svg{width:32px;height:32px}
+.video.pending .play{background:var(--dim);cursor:default;transform:translate(-50%,-50%)}
+.video .shield{position:absolute;inset:0;cursor:pointer;z-index:2}
+.video .held{position:absolute;inset:0;z-index:3;background:var(--paper);opacity:0;visibility:hidden;transition:opacity .35s,visibility 0s .35s}
+.video .held img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.video .held .play{z-index:1}
+.video.paused .held,.video.grace .held{opacity:1;visibility:visible;transition:opacity .15s}
+.video.grace .held .play{display:none}
+.bar{display:flex;flex-direction:column;padding:0 12px 6px;color:var(--night-mute);font-family:var(--f-mono);font-size:13px;font-variant-numeric:tabular-nums}
+.seek{position:relative;height:18px;display:flex;align-items:center;cursor:pointer}
+.seek .segs{position:relative;width:100%;height:4px;display:flex;gap:2px;transition:height .1s}
+.seek:hover .segs{height:6px}
+.seek .segs i{display:block;height:100%;background:var(--night-4);border-radius:2px;position:relative;overflow:hidden}
+.seek .segs i b{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--night-ink)}
+.seek .knob{position:absolute;top:50%;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;background:var(--night-ink);left:0;opacity:0;transition:opacity .1s;pointer-events:none}
+.seek:hover .knob{opacity:1}
+.seek .tip{position:absolute;bottom:100%;transform:translateX(-50%);padding:4px 8px;border-radius:4px;background:var(--night-ink);color:var(--night);font-family:var(--f-body);font-size:12px;white-space:nowrap;opacity:0;pointer-events:none}
+.seek:hover .tip{opacity:1}
+.row{display:flex;align-items:center;gap:4px;height:40px}
+.row .sp{flex:1}
+.row button{flex:none;width:36px;height:36px;border:0;border-radius:6px;background:transparent;color:var(--night-ink);display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0}
+.row button:hover{background:var(--night-3)}
+.row button svg{width:20px;height:20px}
+.row .cap{display:flex;align-items:center;margin:0 6px}
+.row button.cc{font-family:var(--f-body);font-size:11px;font-weight:600;letter-spacing:.02em;border:1.5px solid var(--night-mute);color:var(--night-mute);width:auto;padding:0 6px;height:20px;border-radius:3px;line-height:1}
+.row button.cc:hover{background:transparent;border-color:var(--night-ink);color:var(--night-ink)}
+.row button.cc[aria-pressed="true"]{position:relative;z-index:1;border-color:var(--night-ink);background:var(--night-ink);color:var(--night)}
+.row button.cc+button.cc{margin-left:-1.5px}
+.row .cap button.cc:first-child:not(:last-child){border-radius:3px 0 0 3px}
+.row .cap button.cc:last-child:not(:first-child){border-radius:0 3px 3px 0}
+.row button.cc .zh{font-family:var(--f-cjk);font-weight:500;font-size:12px;letter-spacing:0}
+.video .caps{position:absolute;left:0;right:0;bottom:4%;z-index:4;display:flex;justify-content:center;padding:0 8%;pointer-events:none}
+.video .caps .plate{display:flex;flex-direction:column;align-items:center;gap:.06em;max-width:100%;padding:.3em .75em .36em;border-radius:.3em;background:rgba(14,14,14,.72);color:var(--night-ink);text-align:center;font-family:var(--f-body);font-size:clamp(12px,1.8cqw,24px);line-height:1.3;text-wrap:balance}
+.video .caps .plate:empty{display:none}
+.video .caps .en{font-weight:500;letter-spacing:-.005em}
+.video .caps .zh{font-family:var(--f-cjk);font-weight:400;font-size:.92em;color:#DADADA}
+.video .caps .zh:only-child{color:var(--night-ink)}
+.row button.spd{font-family:var(--f-mono);font-size:12px;color:var(--night-mute);width:auto;padding:0 8px}
+.row button.spd[data-on="1"]{color:var(--night-ink)}
+.row .tm{margin-left:8px;white-space:nowrap}.row .tm b{font-weight:500;color:var(--night-ink)}
+.soon{font-size:13px;font-family:var(--f-body);padding:3px 10px;border-radius:999px;background:var(--night-3);color:var(--night-mute)}
+.pn{display:flex;justify-content:space-between;gap:16px;width:min(100%,calc((100vh - 52px - 56px - 64px) * 16 / 9));margin-top:14px}
+.pn a{display:flex;align-items:center;gap:8px;color:var(--night-mute);font-size:13px;padding:6px 8px;border-radius:8px;max-width:48%}
+.pn a:hover{color:var(--night-ink);background:var(--night-2)}
+.pn a span{display:flex;flex-direction:column;min-width:0}
+.pn a small{font-size:12px}.pn a b{font-weight:500;color:var(--night-ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pn a svg{width:18px;height:18px;flex:none}
+.pn .next{text-align:right}
+.video .upnext{position:absolute;right:16px;bottom:16px;z-index:4;display:flex;flex-direction:column;gap:2px;padding:10px 14px;border-radius:8px;background:var(--night);color:var(--night-ink);box-shadow:var(--elev3);font-size:13px}
+.video .upnext small{color:var(--night-mute);font-size:12px}
+.video .upnext b{font-weight:500}
+.video .upnext:hover{background:#000}
+.centre:fullscreen{background:var(--night);justify-content:center;padding:24px}
+.centre:fullscreen .pn{display:none}
+.centre:fullscreen .player{width:min(100%,calc((100vh - 48px - 64px) * 16 / 9))}
+.recap{background:var(--night-2);border-radius:12px;padding:18px 20px 20px}
+.recap ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.recap li{display:grid;grid-template-columns:24px minmax(0,1fr);gap:6px;font-size:14px;line-height:1.5;color:var(--night-ink)}
+.recap li i{font-style:normal;font-family:var(--f-mono);font-size:13px;color:var(--night-mute);padding-top:2px}
+.recap .katex{color:var(--night-ink)}
+.nextcard{display:grid;grid-template-columns:88px minmax(0,1fr);gap:12px;align-items:center;color:var(--night-ink);padding:10px;border-radius:12px;background:var(--night-2);transition:background .15s}
+.nextcard:hover{background:var(--night-3)}
+.nextcard .thumb{border-radius:6px;box-shadow:none}
+.nextcard .nb{display:flex;flex-direction:column;gap:1px}
+.nextcard small{font-size:12px;color:var(--night-mute)}
+.nextcard b{font-size:14px;font-weight:500;line-height:1.3}
+.katex{font-size:1.04em}
+@media (max-width:920px){
+  header.top .crumbs{display:none}
+  .books,.grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .pn{width:100%}
+  .stage{min-height:0;display:block}
+  .app{grid-template-columns:minmax(0,1fr)}
+  .side{display:none}
+  .stage .wrap{grid-template-columns:1fr 1fr;gap:24px 32px}
+  .stage .centre{grid-column:1 / -1;order:-1}
+  .player{width:100%}
+  details.ch .body{padding-left:4px}
+}
+@media (max-width:600px){
+  .wrap,header.top .wrap,.band .wrap,.stage .wrap{padding-left:20px;padding-right:20px}
+  .books,.grid,.tools{grid-template-columns:1fr}
+  .tool{grid-template-columns:minmax(0,2fr) minmax(0,3fr)}
+  .stage .wrap{grid-template-columns:1fr;padding:16px 20px 24px}
+  .player{border-radius:8px}.video .play{width:64px;height:64px}.video .play svg{width:24px;height:24px}
+  details.ch summary{grid-template-columns:40px minmax(0,1fr) 24px}details.ch summary .meta{display:none}
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body class="lesson" data-key="P1/01-algebraic-expressions/1.2-expanding-brackets.html">
+<header class="top"><div class="wrap">
+  <a class="brand" href="../../index.html"><svg class="mark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-label="Py"><path d="M3.5 6.5c1.5 0 2.5-.6 3-1.5"></path><path d="M5 6.5h15.5"></path><path d="M8.5 6.5v12.5"></path><path d="M15.5 6.5v9.5c0 1.8 1.2 2.9 2.8 2.9.9 0 1.6-.3 2.2-.9"></path></svg><span>Study</span></a>
+  <nav class="crumbs" aria-label="Breadcrumb"><a href="../../index.html">Pearson Edexcel International A Level</a><i>/</i><a href="../index.html">Pure Mathematics 1</a><i>/</i><a href="../index.html#ch1">Chapter 1</a></nav>
+</div></header>
+<div class="app">
+<aside class="side" aria-label="Library">
+  <button class="otog" type="button" aria-label="Library" aria-expanded="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"></rect><path d="M9 4v16"></path></svg></button>
+  <div class="sbody"><div class="sq">Pearson Edexcel International A Level</div><a class="sb cur" href="../index.html"><span class="n">P1</span><span class="tt">Pure Mathematics 1</span></a><details class="sch" open><summary><span class="n">1</span><span class="tt">Algebraic expressions</span><span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></span></summary><ol><li data-key="P1/01-algebraic-expressions/1.1-index-laws.html"><a href="1.1-index-laws.html"><span class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></span><span class="n">1.1</span><span class="tt">Index laws</span><span class="d">4:23</span></a></li><li class=cur data-key="P1/01-algebraic-expressions/1.2-expanding-brackets.html"><a href="1.2-expanding-brackets.html" aria-current=page><span class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></span><span class="n">1.2</span><span class="tt">Expanding brackets</span><span class="d">3:39</span></a></li><li data-key="P1/01-algebraic-expressions/1.3-factorising.html"><a href="1.3-factorising.html"><span class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></span><span class="n">1.3</span><span class="tt">Factorising</span><span class="d">3:58</span></a></li><li data-key="P1/01-algebraic-expressions/1.4-fractional-indices.html"><a href="1.4-fractional-indices.html"><span class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></span><span class="n">1.4</span><span class="tt">Negative and fractional indices</span><span class="d">3:58</span></a></li><li data-key="P1/01-algebraic-expressions/1.5-surds.html"><a href="1.5-surds.html"><span class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></span><span class="n">1.5</span><span class="tt">Surds</span><span class="d">4:08</span></a></li><li data-key="P1/01-algebraic-expressions/1.6-rationalising-denominators.html"><a href="1.6-rationalising-denominators.html"><span class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></span><span class="n">1.6</span><span class="tt">Rationalising denominators</span><span class="d">3:48</span></a></li><li data-key="P1/01-algebraic-expressions/review.html"><a href="review.html"><span class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></span><span class="n">review</span><span class="tt">Chapter 1 review</span><span class="d">3:03</span></a></li><li data-key="P1/01-algebraic-expressions/exam-questions.html"><a href="exam-questions.html"><span class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></span><span class="n">exam</span><span class="tt">Chapter 1 exam questions</span><span class="d">3:10</span></a></li></ol></details></div>
+</aside>
+<div id="app">
+<section class="stage"><div class="wrap">
+  <div class="rail">
+    <div>
+      <h1><span class="num">1.2</span>Expanding brackets</h1>
+      <p class="lede">Every term in one bracket times every term in the other, then collect what matches.</p>
+    </div>
+    <section><h3 class="h3">In this lesson</h3><ol class="timeline" data-total="219"><span class="fill"></span><li><a href="#t=0" data-t="0" data-frame="1.2-expanding-brackets.s01.jpg"><span class="t">0:00</span><span>Title</span></a></li><li><a href="#t=20" data-t="20" data-frame="1.2-expanding-brackets.s02.jpg"><span class="t">0:20</span><span>The rule</span></a></li><li><a href="#t=60" data-t="60" data-frame="1.2-expanding-brackets.s03.jpg"><span class="t">1:00</span><span>Worked example 1</span></a></li><li><a href="#t=94" data-t="94" data-frame="1.2-expanding-brackets.s04.jpg"><span class="t">1:34</span><span>Worked example 2</span></a></li><li><a href="#t=129" data-t="129" data-frame="1.2-expanding-brackets.s05.jpg"><span class="t">2:09</span><span>Common mistakes</span></a></li><li><a href="#t=159" data-t="159" data-frame="1.2-expanding-brackets.s06.jpg"><span class="t">2:39</span><span>Exam tip</span></a></li><li><a href="#t=192" data-t="192" data-frame="1.2-expanding-brackets.s07.jpg"><span class="t">3:12</span><span>Recap</span></a></li></ol></section>
+  </div>
+  <div class="centre">
+    <div class="player">
+      <div class="video" data-id="cm6YiLOQVFA" data-title="P1 1.2 Expanding brackets" data-poster="1.2-expanding-brackets.jpg"><img src="1.2-expanding-brackets.jpg" alt="" width="960" height="540"><button class="play" type="button" aria-label="Play"><svg viewBox="0 0 30 34" aria-hidden="true"><path d="M2 2 L28 17 L2 32 Z" fill="#F3F3F3" stroke="#F3F3F3" stroke-width="2" stroke-linejoin="round"></path></svg></button></div>
+      <div class="bar"><div class="seek" role="slider" aria-label="Seek"><div class="segs"><i data-a="0" data-b="20" style="flex:0 0 calc(9.112% - 2px)" title="Title"><b></b></i><i data-a="20" data-b="60" style="flex:0 0 calc(18.223% - 2px)" title="The rule"><b></b></i><i data-a="60" data-b="94" style="flex:0 0 calc(15.490% - 2px)" title="Worked example 1"><b></b></i><i data-a="94" data-b="129" style="flex:0 0 calc(15.945% - 2px)" title="Worked example 2"><b></b></i><i data-a="129" data-b="159" style="flex:0 0 calc(13.667% - 2px)" title="Common mistakes"><b></b></i><i data-a="159" data-b="192" style="flex:0 0 calc(15.034% - 2px)" title="Exam tip"><b></b></i><i data-a="192" data-b="219.5" style="flex:0 0 calc(12.528% - 2px)" title="Recap"><b></b></i></div><span class="knob"></span><span class="tip"></span></div><div class="row"><button class="pp" type="button" aria-label="Play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l12-7.5z"></path></svg></button><button class="back" type="button" aria-label="Back 10 seconds"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"></path><path d="M3 4v5h5"></path><text x="12" y="15.5" font-size="8" font-family="IBM Plex Sans,sans-serif" font-weight="600" fill="currentColor" stroke="none" text-anchor="middle">10</text></svg></button><button class="fwd" type="button" aria-label="Forward 10 seconds"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-3-6.7"></path><path d="M21 4v5h-5"></path><text x="12" y="15.5" font-size="8" font-family="IBM Plex Sans,sans-serif" font-weight="600" fill="currentColor" stroke="none" text-anchor="middle">10</text></svg></button><span class="tm"><b class="cur">0:00</b> / <span class="tot">3:39</span></span><span class="sp"></span><span class="cap"><button class="cc" data-lang="en" type="button" aria-pressed="false" aria-label="English captions"><span>EN</span></button><button class="cc" data-lang="zh" type="button" aria-pressed="false" aria-label="中文字幕"><span class="zh">中</span></button></span><button class="spd" type="button" aria-label="Playback speed">1×</button><button class="fs" type="button" aria-label="Full screen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"></path></svg></button></div></div><script type="application/json" class="cues">{"en": [[0.0, 4.459, "Welcome. This is section one point two, expanding brackets."], [4.459, 7.561, "It is one rule, applied carefully: every term in"], [7.561, 11.051, "the first bracket multiplies every term in the second."], [11.051, 13.977, "We will watch the rule happen one term at a time,"], [13.977, 16.963, "square a bracket without losing a term, and expand"], [16.963, 20.069, "three brackets the way a show-that question expects."], [20.069, 22.075, "Here is the rule in action."], [22.075, 26.675, "Each term of the first bracket multiplies the whole of the second bracket."], [26.675, 30.921, "So x times the bracket, plus five times the bracket."], [30.921, 33.426, "Now expand each of those."], [33.426, 38.239, "The x gives four x squared, minus two x y, plus three x."], [38.239, 43.765, "The five gives twenty x, minus ten y, plus fifteen."], [43.765, 48.51, "Then collect like terms. Three x and twenty x make twenty-three x."], [48.51, 52.043, "Nothing else matches, so the rest stays as it is."], [52.043, 56.468, "A habit worth keeping: two terms times three terms gives six products."], [56.468, 60.473, "Count them before you tidy. If you have five, one is missing."], [60.473, 64.433, "First a plain one that goes wrong surprisingly often."], [64.433, 67.665, "Squaring a bracket means multiplying"], [67.665, 71.166, "it by itself, so write both copies out."], [71.166, 73.846, "Every term times every term."], [73.846, 80.579, "x times x, x times minus y, minus y times x, and minus y times minus y."], [80.579, 84.752, "Four products, and the two in the middle are the same."], [84.752, 87.97, "Together they make minus two x y. So x"], [87.97, 91.272, "squared, minus two x y, plus y squared."], [91.272, 94.709, "There is always a middle term."], [94.709, 99.915, "Three factors. Do not try to do it all at once. Expand one pair first."], [99.915, 105.334, "Here, x times the first bracket gives two x squared plus three x."], [105.334, 108.372, "Now that new bracket times x minus seven."], [108.372, 112.05, "Two terms times two terms is four products."], [112.05, 115.17, "Two x cubed, minus fourteen x squared,"], [115.17, 118.536, "plus three x squared, minus twenty-one x."], [118.536, 123.921, "Collect the x squared terms. Minus fourteen plus three is minus eleven."], [123.921, 129.526, "Two x cubed, minus eleven x squared, minus twenty-one x."], [129.526, 132.671, "Two slips that cost marks every year."], [132.671, 135.329, "First: a minus sign in front of a bracket"], [135.329, 138.764, "changes every sign inside it, including the last one."], [138.764, 142.69, "Minus five times plus three is minus fifteen."], [142.69, 147.076, "Second: squaring a bracket is not squaring each term."], [147.076, 152.282, "x plus three, all squared, is x squared plus six x plus nine."], [152.282, 155.465, "If you ever write a squared bracket with no"], [155.465, 159.167, "middle term, stop and write the bracket out twice."], [159.167, 161.207, "A show-that question."], [161.207, 164.117, "Every line of working must be on the page, and"], [164.117, 167.407, "the last line must match what they gave you exactly."], [167.407, 171.725, "Volume is length times width times height, so multiply the three brackets."], [171.725, 175.578, "Two first, tidy, then the third."], [175.578, 180.498, "Here is a habit worth having. Substitute x equals one into both sides."], [180.498, 186.523, "The lengths become three, one and five, so the volume is fifteen."], [186.523, 189.094, "The expansion gives fifteen too. Ten"], [189.094, 192.166, "seconds, and you know the algebra is right."], [192.166, 194.206, "To recap."], [194.206, 196.925, "Every term multiplies every term, and"], [196.925, 200.158, "counting the products catches a dropped one."], [200.158, 202.411, "Collect like terms only."], [202.411, 207.262, "With three brackets, expand a pair, tidy, then bring in the third."], [207.262, 210.575, "A squared bracket always has a middle term, and a"], [210.575, 213.82, "minus outside a bracket flips every sign inside."], [213.82, 216.061, "Next, section one point three:"], [216.061, 219.497, "factorising, which is this process in reverse."]], "zh": [[0.0, 4.459, "欢迎。这是第一章第二节：展开括号。"], [4.459, 11.051, "它只有一条规则，但要用得仔细：第一个括号里的每一项，都要乘以第二个括号里的每一项。"], [11.051, 20.069, "我们会一项一项地看这条规则怎么用，把一个括号平方而不漏掉任何一项，再按\"证明题\"的要求展开三个括号。"], [20.069, 22.075, "来看这条规则的实际用法。"], [22.075, 26.675, "第一个括号的每一项，都乘以整个第二个括号。"], [26.675, 30.921, "也就是 x 乘以括号，加上五乘以括号。"], [30.921, 33.426, "现在把它们分别展开。"], [33.426, 38.239, "x 乘出来是四 x 的平方，减二 x y，加三 x。"], [38.239, 43.765, "五乘出来是二十 x，减十 y，加十五。"], [43.765, 48.51, "然后合并同类项。三 x 和二十 x 合起来是二十三 x。"], [48.51, 52.043, "其余的项没有同类项，保持原样。"], [52.043, 56.468, "一个值得养成的习惯：两项乘以三项，应该得到六个乘积。"], [56.468, 60.473, "整理之前先数一数。如果只有五个，就漏掉了一个。"], [60.473, 64.433, "先来一道看似简单、却经常出错的题。"], [64.433, 71.166, "括号的平方就是括号乘以它自己，所以把两个括号都写出来。"], [71.166, 73.846, "每一项乘以每一项。"], [73.846, 80.579, "x 乘 x，x 乘负 y，负 y 乘 x，负 y 乘负 y。"], [80.579, 84.752, "四个乘积，中间两个是一样的。"], [84.752, 91.272, "它们合起来是负二 x y。所以结果是 x 的平方，减二 x y，加 y 的平方。"], [91.272, 94.709, "中间项永远都在。"], [94.709, 99.915, "三个因式。不要试图一次全部展开。先展开其中一对。"], [99.915, 105.334, "这里，x 乘以第一个括号，得到二 x 的平方加三 x。"], [105.334, 108.372, "再把这个新括号乘以 x 减七。"], [108.372, 112.05, "两项乘以两项，四个乘积。"], [112.05, 118.536, "二 x 的三次方，减十四 x 的平方，加三 x 的平方，减二十一 x。"], [118.536, 123.921, "合并 x 的平方项。负十四加三等于负十一。"], [123.921, 129.526, "二 x 的三次方，减十一 x 的平方，减二十一 x。"], [129.526, 132.671, "两个每年都在丢分的错误。"], [132.671, 138.764, "第一：括号前面的负号会改变括号里每一项的符号，包括最后一项。"], [138.764, 142.69, "负五乘以正三等于负十五。"], [142.69, 147.076, "第二：括号的平方不是把每一项分别平方。"], [147.076, 152.282, "x 加三整体平方，等于 x 的平方加六 x 加九。"], [152.282, 159.167, "如果你写出的括号平方没有中间项，停下来，把括号写两遍再展开。"], [159.167, 161.207, "一道证明题。"], [161.207, 167.407, "每一步过程都要写在纸上，最后一行必须和题目给的完全一致。"], [167.407, 171.725, "体积等于长乘宽乘高，所以把三个括号相乘。"], [171.725, 175.578, "先乘两个，整理，再乘第三个。"], [175.578, 180.498, "一个值得养成的习惯：把 x 等于一代入两边。"], [180.498, 186.523, "三条边变成三、一、五，体积是十五。"], [186.523, 192.166, "展开式算出来也是十五。十秒钟，你就知道代数没有错。"], [192.166, 194.206, "总结一下。"], [194.206, 200.158, "每一项乘以每一项，数一数乘积的个数就能发现漏掉的那一个。"], [200.158, 202.411, "只合并同类项。"], [202.411, 207.262, "三个括号时，先展开一对，整理，再乘第三个。"], [207.262, 213.82, "括号的平方永远有中间项，括号外的负号会翻转括号里的每一个符号。"], [213.82, 219.497, "下一节，第一章第三节：因式分解，也就是这个过程的逆运算。"]]}</script>
+    </div>
+    <div class="pn"><a class="prev" href="1.1-index-laws.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg><span><small>Previous</small><b>1.1 Index laws</b></span></a><a class="next" href="1.3-factorising.html" data-next="1"><span><small>Next</small><b>1.3 Factorising</b></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></a></div>
+  </div>
+  <div class="rail">
+    <section class="recap"><h3 class="h3">Recap</h3><ol><li><i>1</i><span>Every term in one bracket multiplies every term in the other. Count the products.</span></li><li><i>2</i><span>Collect like terms only. \( x^{2} \), \( xy \) and \( x \) never combine.</span></li><li><i>3</i><span>Three brackets: expand a pair, tidy, then multiply by the third.</span></li><li><i>4</i><span>A squared bracket always has a middle term. A minus outside flips every sign inside.</span></li></ol></section>
+    <a class="nextcard" href="1.3-factorising.html"><div class="thumb"><img src="1.3-factorising.card.jpg" alt="" loading="lazy" width="960" height="540"></div><span class="nb"><small>Up next · 1.3</small><b>Factorising</b><small>3:58</small></span></a><a class="nextcard exam" href="exam-questions.html"><div class="thumb"><img src="exam-questions.card.jpg" alt="" loading="lazy" width="960" height="540"></div><span class="nb"><small>Chapter 1</small><b>Exam questions</b><small>3:10</small></span></a>
+  </div>
+</div></section>
+</div>
+</div>
+<script src="../../katex/katex.min.js"></script>
+<script src="../../katex/auto-render.min.js"></script>
+<script>
+(function(){
+  /* The player is YouTube's; the picture is ours. YouTube draws its own
+     chrome on the frame while loading, for ~3 s after any state change,
+     while paused, while buffering, and at the end. The rule: whenever the
+     frame is not simply playing clean, the rendered slide covers it. */
+  var player=null, timer=null, pending=0, video=null, poster='', grace=null, watchdog=null;
+  /* captions are drawn by the page from the cue tracks inline in the lesson;
+     which languages show is remembered per browser. First visit: a Chinese
+     browser gets English and 中文, any other gets English. */
+  var cues={}, caps=null, lastCaps=null, capShown=null;
+  function capDefault(){ var zh=/^zh/i.test(navigator.language||''); return {en:true, zh:zh}; }
+  try{ caps=JSON.parse(localStorage.getItem('caps')||'null'); }catch(e){}
+  if(!caps || typeof caps!=='object') caps=capDefault();
+  var GRACE_MS=3600;
+  var PLAY='<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l12-7.5z"></path></svg>';
+  var PAUSE='<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 4.5h4.5v15H6zM13.5 4.5H18v15h-4.5z"></path></svg>';
+  var PLAYBIG='<svg viewBox="0 0 30 34" aria-hidden="true"><path d="M2 2 L28 17 L2 32 Z" fill="#F3F3F3" stroke="#F3F3F3" stroke-width="2" stroke-linejoin="round"></path></svg>';
+  var RATES=[0.75,1,1.25,1.5,1.75,2], rate=1;
+  try{ rate=parseFloat(localStorage.getItem('rate'))||1; if(RATES.indexOf(rate)<0) rate=1; }catch(e){}
+  function q(sel){ return document.querySelector(sel); }
+  function clock(s){ s=Math.max(0,Math.floor(s)); return Math.floor(s/60)+':'+('0'+s%60).slice(-2); }
+  function marks(){ return Array.prototype.slice.call(document.querySelectorAll('.timeline a[data-t]')); }
+  function total(){ var d=player&&player.getDuration?player.getDuration():0; return d||parseFloat((q('.timeline')||{dataset:{}}).dataset.total)||0; }
+  function now(){ return player&&player.getCurrentTime?player.getCurrentTime():pending; }
+  function frameFor(t){
+    var src=''; marks().forEach(function(a){ if(parseFloat(a.dataset.t)<=t+0.5 && a.dataset.frame) src=a.dataset.frame; });
+    return src || (video&&video.dataset.poster) || '';
+  }
+  function hold(state, t){   // 'paused' | 'grace' | 'hold' | ''
+    if(!video) return;
+    var held=video.querySelector('.held'); if(!held) return;
+    clearTimeout(grace); grace=null;
+    video.classList.remove('paused','grace');
+    if(!state) return;
+    var src=frameFor(t==null?now():t);
+    if(src) held.querySelector('img').src=src;
+    video.classList.add(state==='paused'?'paused':'grace');
+    if(state==='grace') grace=setTimeout(function(){ video.classList.remove('grace'); }, GRACE_MS);
+  }
+  function paint(t, dur){
+    var tl=q('.timeline');
+    if(tl){
+      var ms=marks(), cur=-1;
+      ms.forEach(function(a,i){ if(parseFloat(a.dataset.t)<=t+0.5) cur=i; });
+      ms.forEach(function(a,i){ a.classList.toggle('done', i<cur); a.classList.toggle('now', i===cur); });
+      var fill=tl.querySelector('.fill');
+      if(fill && ms.length){
+        var top=ms[0].offsetTop+14, span=ms[ms.length-1].offsetTop+14-top, frac=dur?Math.max(0,Math.min(1,t/dur)):0;
+        fill.style.top=top+'px'; fill.style.height=Math.max(0,span*frac)+'px';
+      }
+    }
+    var c=q('.bar .cur'); if(c) c.textContent=clock(t);
+    if(dur){
+      var frac2=Math.max(0,Math.min(1,t/dur));
+      document.querySelectorAll('.seek .segs i').forEach(function(seg){
+        var a=parseFloat(seg.dataset.a), b=parseFloat(seg.dataset.b), f=(t-a)/(b-a);
+        seg.querySelector('b').style.width=(100*Math.max(0,Math.min(1,f)))+'%';
+      });
+      var knob=q('.seek .knob'); if(knob) knob.style.left=(100*frac2)+'%';
+    }
+  }
+  function playing(){ return player && player.getPlayerState && player.getPlayerState()===YT.PlayerState.PLAYING; }
+  function icon(){ var b=q('.bar .pp'); if(!b) return; b.innerHTML=playing()?PAUSE:PLAY; b.setAttribute('aria-label', playing()?'Pause':'Play'); }
+  function tick(){
+    if(!player || !player.getCurrentTime) return;
+    var t=player.getCurrentTime(), d=player.getDuration()||0;
+    paint(t, d); paintCaps(t);
+    if(d && t/d>0.9) markWatched();
+    if(d && d-t<0.8 && !video.classList.contains('grace') && !video.classList.contains('paused')) hold('hold', t);
+  }
+  /* what has been watched, per browser: a tick in the outline and on the book page */
+  function watched(){ try{ return JSON.parse(localStorage.getItem('watched')||'{}')||{}; }catch(e){ return {}; } }
+  function markWatched(){
+    var key=document.body.dataset.key; if(!key) return;
+    var w=watched(); if(w[key]) return; w[key]=1;
+    try{ localStorage.setItem('watched', JSON.stringify(w)); }catch(e){}
+    paintWatched(document);
+  }
+  function paintWatched(scope){
+    var w=watched();
+    scope.querySelectorAll('[data-key]').forEach(function(el){ if(el.dataset.key && w[el.dataset.key]) el.classList.add('done'); });
+  }
+  function stop(ended){
+    clearInterval(timer); timer=null; clearTimeout(grace); grace=null; clearTimeout(watchdog); watchdog=null;
+    if(player && player.destroy){ try{player.destroy();}catch(e){} }
+    player=null;
+    if(video){ video.classList.remove('paused','grace'); video.innerHTML=poster;
+      var b=video.querySelector('.play'); if(b) b.addEventListener('click', function(){ mount(0); });
+      var nx=q('.pn a[data-next]');
+      if(ended && nx){
+        var up=document.createElement('a'); up.className='upnext'; up.href=nx.getAttribute('href');
+        up.innerHTML='<small>'+nx.querySelector('small').textContent+'</small><b>'+nx.querySelector('b').textContent+'</b>';
+        video.appendChild(up);
+      }
+    }
+    paint(0, total()); icon();
+  }
+  function speed(r){
+    rate=r; try{localStorage.setItem('rate',String(r));}catch(e){}
+    var b=q('.bar .spd'); if(b){ b.textContent=(r%1?r:r.toFixed(0))+'×'; b.dataset.on=r===1?'0':'1'; }
+    if(player && player.setPlaybackRate) player.setPlaybackRate(r);
+  }
+  function speedStep(d){ var i=RATES.indexOf(rate); speed(RATES[Math.max(0,Math.min(RATES.length-1,i+d))]); }
+  function ready(){
+    video=q('.video[data-id]'); if(!video || player) return;
+    poster=poster||video.innerHTML;
+    var host=document.createElement('div'); host.className='yt';
+    var shield=document.createElement('div'); shield.className='shield'; shield.title='Click to pause, double-click for full screen';
+    var held=document.createElement('div'); held.className='held';
+    held.innerHTML='<img alt=""><button class="play" type="button" aria-label="Play">'+PLAYBIG+'</button>';
+    var capbox=document.createElement('div'); capbox.className='caps'; capbox.setAttribute('aria-live','off'); capbox.innerHTML='<div class="plate"></div>';
+    video.innerHTML=''; video.appendChild(host); video.appendChild(shield); video.appendChild(held); video.appendChild(capbox);
+    capShown=null; paintCaps(pending);
+    [shield, held].forEach(function(el){
+      el.addEventListener('click', toggle);
+      el.addEventListener('dblclick', function(){ fullscreen(); });
+    });
+    hold('hold', pending);
+    clearTimeout(watchdog);
+    watchdog=setTimeout(function(){
+      if(player && player.getPlayerState && player.getPlayerState()!==YT.PlayerState.PLAYING && player.getPlayerState()!==YT.PlayerState.BUFFERING) hold('paused', pending);
+    }, 5000);
+    player=new YT.Player(host,{videoId:video.dataset.id,host:'https://www.youtube-nocookie.com',
+      playerVars:{controls:0,disablekb:1,fs:0,rel:0,iv_load_policy:3,modestbranding:1,autoplay:1,playsinline:1,cc_load_policy:3,start:pending||0},
+      events:{
+        onReady:function(e){
+          var f=e.target.getIframe(); if(f){ f.tabIndex=-1; f.setAttribute('aria-hidden','true'); f.style.pointerEvents='none'; }
+          e.target.setPlaybackRate(rate);
+          try{ e.target.unloadModule('captions'); }catch(x){}   // the page draws captions; YouTube's stay off
+          if(pending>0) e.target.seekTo(pending,true);   // a marker clicked while loading
+          e.target.playVideo(); tick();
+        },
+        onStateChange:function(e){
+          clearInterval(timer); timer=null;
+          var S=YT.PlayerState;
+          if(e.data===S.ENDED){ markWatched(); stop(true); return; }
+          if(e.data===S.PLAYING){ clearTimeout(watchdog); timer=setInterval(tick,250); hold('grace'); try{ e.target.unloadModule('captions'); }catch(x){} }
+          else if(e.data===S.BUFFERING){ hold('hold'); }
+          else if(e.data===S.PAUSED || e.data===S.CUED){ hold('paused'); }
+          tick(); icon();
+        },
+        onError:function(){ stop(false); var tm=q('.bar .tm'); if(tm) tm.textContent='Video unavailable'; }
+      }});
+  }
+  function mount(start){
+    pending=start||0;
+    if(player && player.seekTo){ hold('grace', pending); player.seekTo(pending,true); player.playVideo(); return; }
+    if(player) return;                            // loading: pending is applied on ready
+    if(window.YT && YT.Player){ ready(); return; }
+    window.onYouTubeIframeAPIReady=ready;
+    if(!document.getElementById('ytapi')){ var s=document.createElement('script'); s.id='ytapi'; s.src='https://www.youtube.com/iframe_api'; document.head.appendChild(s); }
+  }
+  function toggle(){ if(!player || !player.playVideo){ mount(pending); return; } playing()? player.pauseVideo() : player.playVideo(); }
+  function seekTo(t){ if(!player || !player.seekTo){ mount(t); return; } hold('grace', t); player.seekTo(Math.max(0,t),true); if(!playing()) player.playVideo(); tick(); }
+  function seekBy(d){ seekTo(now()+d); }
+  function fullscreen(){
+    var c=q('.centre'); if(!c) return;
+    if(document.fullscreenElement){ document.exitFullscreen(); }
+    else if(c.requestFullscreen){ c.requestFullscreen(); }
+  }
+  function langs(){ return Object.keys(cues); }
+  function capOn(code){ return !!(caps[code] && cues[code]); }
+  function anyCap(){ return langs().some(capOn); }
+  function setCaps(o){
+    caps=o; try{ localStorage.setItem('caps', JSON.stringify(o)); }catch(e){}
+    document.querySelectorAll('.bar .cc[data-lang]').forEach(function(b){ b.setAttribute('aria-pressed', String(capOn(b.dataset.lang))); });
+    capShown=null; paintCaps(now());
+    if(player && player.unloadModule){ try{ player.unloadModule('captions'); }catch(e){} }
+  }
+  function toggleCap(code){ var o={}; for(var k in caps) o[k]=caps[k]; o[code]=!o[code]; setCaps(o); }
+  function capsKey(){   // c: everything off, or back to what was on
+    if(anyCap()){ lastCaps=caps; var off={}; for(var k in caps) off[k]=false; setCaps(off); }
+    else { var on=lastCaps && Object.keys(lastCaps).some(function(k){ return lastCaps[k]; }) ? lastCaps : capDefault(); setCaps(on); }
+  }
+  function cueAt(list, t){ for(var i=0;i<list.length;i++){ if(t>=list[i][0] && t<list[i][1]) return list[i][2]; } return ''; }
+  function paintCaps(t){
+    var box=video && video.querySelector('.caps .plate'); if(!box) return;
+    var parts=[], key='';
+    ['en','zh'].concat(langs().filter(function(k){ return k!=='en' && k!=='zh'; })).forEach(function(k){
+      if(!capOn(k)) return; var s=cueAt(cues[k], t); if(!s) return;
+      parts.push({k:k, s:s}); key+=k+'|'+s+'\n';
+    });
+    if(key===capShown) return;
+    capShown=key; box.textContent='';
+    parts.forEach(function(p){ var el=document.createElement('span'); el.className=p.k; el.textContent=p.s; box.appendChild(el); });
+  }
+  function sideOpen(open){
+    document.body.classList.toggle('side-open', open);
+    var b=q('.otog'); if(b) b.setAttribute('aria-expanded', String(open));
+    try{ localStorage.setItem('side', open?'1':'0'); }catch(e){}
+  }
+  function wire(scope){
+    player=null; clearInterval(timer); poster=''; capShown=null;
+    var src=scope.querySelector('.player .cues'); if(src){ cues={}; try{ cues=JSON.parse(src.textContent)||{}; }catch(e){} }
+    paintWatched(scope);
+    scope.querySelectorAll('.side li.cur > a').forEach(function(a){ a.addEventListener('click', function(ev){ ev.preventDefault(); }); });
+    var cur=document.querySelector('.side li.cur'); if(cur && cur.scrollIntoView) cur.scrollIntoView({block:'nearest'});
+    scope.querySelectorAll('.video[data-id] .play').forEach(function(b){ b.addEventListener('click', function(){ mount(0); }); });
+    scope.querySelectorAll('.timeline a[data-t]').forEach(function(a){
+      a.addEventListener('click', function(ev){ if(!q('.video[data-id]')) return; ev.preventDefault(); seekTo(parseFloat(a.dataset.t)); });
+    });
+    var on=function(sel, fn){ var el=scope.querySelector(sel); if(el) el.addEventListener('click', fn); };
+    on('.bar .pp', toggle); on('.bar .fs', fullscreen);
+    on('.bar .back', function(){ seekBy(-10); }); on('.bar .fwd', function(){ seekBy(10); });
+    scope.querySelectorAll('.bar .cc[data-lang]').forEach(function(b){
+      b.setAttribute('aria-pressed', String(capOn(b.dataset.lang)));
+      b.addEventListener('click', function(){ toggleCap(b.dataset.lang); });
+    });
+    on('.bar .spd', function(){ speed(RATES[(RATES.indexOf(rate)+1)%RATES.length]); });
+    speed(rate);
+    var seek=scope.querySelector('.seek');
+    if(seek){
+      var frac=function(ev){ var r=seek.getBoundingClientRect(); return Math.max(0,Math.min(1,(ev.clientX-r.left)/r.width)); };
+      seek.addEventListener('click', function(ev){ seekTo(frac(ev)*total()); });
+      seek.addEventListener('mousemove', function(ev){
+        var f=frac(ev), t=f*total(), tip=seek.querySelector('.tip'), name='';
+        marks().forEach(function(a){ if(parseFloat(a.dataset.t)<=t+0.5) name=a.querySelector('span:last-child').textContent; });
+        if(tip){ tip.style.left=(100*f)+'%'; tip.textContent=(name?name+' · ':'')+clock(t); }
+      });
+    }
+    if(window.renderMathInElement) renderMathInElement(scope,{delimiters:[{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false,strict:'ignore',trust:true});
+  }
+  document.addEventListener('keydown', function(ev){
+    if(!q('.video[data-id]') || /input|textarea|select|button/i.test(ev.target.tagName)) return;
+    if(ev.key===' '||ev.key==='k'){ ev.preventDefault(); toggle(); }
+    else if(ev.key==='ArrowRight'){ ev.preventDefault(); seekBy(5); }
+    else if(ev.key==='ArrowLeft'){ ev.preventDefault(); seekBy(-5); }
+    else if(ev.key==='j'){ seekBy(-10); } else if(ev.key==='l'){ seekBy(10); }
+    else if(ev.key==='f'){ fullscreen(); }
+    else if(ev.key==='c'){ capsKey(); }
+    else if(ev.key==='>'||ev.key==='.'){ speedStep(1); }
+    else if(ev.key==='<'||ev.key===','){ speedStep(-1); }
+  });
+  function openChapter(){
+    var h=/^#ch(\d+)$/.exec(location.hash); if(!h) return;
+    var d=document.getElementById('ch'+h[1]); if(d){ d.open=true; d.scrollIntoView({block:'start'}); }
+  }
+  window.addEventListener('hashchange', openChapter);
+  var ot=document.querySelector('.otog');
+  if(ot){ var open=true; try{ open=localStorage.getItem('side')!=='0'; }catch(e){}
+    sideOpen(open); ot.addEventListener('click', function(){ sideOpen(!document.body.classList.contains('side-open')); }); }
+  window.__wire=wire;
+  if(!document.body.dataset.preview){
+    wire(document); openChapter();
+    var m=/^#t=(\d+)/.exec(location.hash); if(m && q('.video[data-id]')) mount(parseInt(m[1],10));
+  }
+})();
+</script>
+</body>
+</html>

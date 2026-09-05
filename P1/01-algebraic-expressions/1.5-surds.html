@@ -1,0 +1,554 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>1.5 Surds · Pure Mathematics 1 · Pystudy</title>
+<meta name="description" content="Exact answers with roots in them, and how to simplify them without a calculator.">
+<meta name="theme-color" content="#0E0E0E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23111'/%3E%3Cg transform='translate(4 4)' fill='none' stroke='%23fff' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3.5 6.5c1.5 0 2.5-.6 3-1.5'/%3E%3Cpath d='M5 6.5h15.5'/%3E%3Cpath d='M8.5 6.5v12.5'/%3E%3Cpath d='M15.5 6.5v9.5c0 1.8 1.2 2.9 2.8 2.9.9 0 1.6-.3 2.2-.9'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../../katex/katex.min.css">
+<style>
+/* Monochrome. Type scale 12 14 16 18 20 24 30 36 48; spacing 4 8 12 16 24 32 48 64 96.
+   Elevation: five two-part steps, assigned by height. Emphasis is weight and
+   black-on-white, never a hue. */
+:root{--paper:#FFFFFF;--wash:#F4F4F4;--wash-deep:#E9E9E9;--rule:#D6D6D6;--rule-soft:#E6E6E6;
+--ink:#111111;--ink-soft:#333333;--ink-mute:#6E6E6E;--dim:#A0A0A0;
+--night:#0E0E0E;--night-2:#1A1A1A;--night-3:#272727;--night-4:#3A3A3A;--night-ink:#F3F3F3;--night-mute:#9C9C9C;
+--f-body:'IBM Plex Sans','Helvetica Neue',Arial,sans-serif;--f-mono:'IBM Plex Mono','SF Mono',Menlo,monospace;--f-cjk:'PingFang SC','Hiragino Sans GB','Noto Sans SC','Microsoft YaHei',sans-serif;
+--elev1:0 1px 3px rgba(0,0,0,.10),0 1px 2px rgba(0,0,0,.14);
+--elev2:0 3px 6px rgba(0,0,0,.10),0 2px 4px rgba(0,0,0,.08);
+--elev3:0 10px 20px rgba(0,0,0,.12),0 3px 6px rgba(0,0,0,.08);
+--elev5:0 24px 48px rgba(0,0,0,.28)}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+body.lesson{background:var(--night)}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid currentColor;outline-offset:3px}
+h1,h2,h3{margin:0;text-wrap:balance}
+.wrap{max-width:1180px;margin:0 auto;padding:0 32px}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+/* header: the name, nothing else */
+header.top{position:sticky;top:0;z-index:20;background:var(--night);color:var(--night-ink)}
+body.home header.top{border-bottom:1px solid var(--night-3)}
+header.top .wrap{max-width:none;display:flex;align-items:center;gap:20px;height:52px}
+header.top .brand{display:flex;align-items:center;gap:5px;font-size:18px;letter-spacing:-.01em;color:var(--night-ink);white-space:nowrap}
+header.top .brand .mark{width:22px;height:22px}
+header.top .brand b{font-weight:700}
+header.top .brand span{font-weight:500}
+header.top .brand:hover{color:#fff}
+header.top .brand:hover{color:#fff}
+header.top .crumbs{flex:1;display:flex;align-items:center;gap:8px;min-width:0;font-size:14px;color:var(--night-mute)}
+header.top .crumbs a{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+header.top .crumbs a:hover{color:var(--night-ink)}
+header.top .crumbs i{font-style:normal;color:var(--night-4)}
+/* the app shell: the library sidebar on the left of every page, a rail with
+   one toggle that opens into a panel, its state remembered */
+.app{min-height:calc(100vh - 52px)}
+body.lesson .app{display:grid;grid-template-columns:auto minmax(0,1fr)}
+.side{width:48px;background:var(--night);color:var(--night-ink);border-right:1px solid var(--night-3);display:flex;flex-direction:column;transition:width .2s;position:sticky;top:52px;height:calc(100vh - 52px);overflow:hidden}
+.side[hidden]{display:none}
+body.side-open .side{width:288px}
+.otog{width:48px;height:48px;border:0;background:transparent;color:var(--night-mute);cursor:pointer;display:flex;align-items:center;justify-content:center;flex:none}
+.otog:hover{color:var(--night-ink);background:var(--night-2)}
+.otog svg{width:20px;height:20px}
+.sbody{display:none;padding:4px 12px 24px;min-width:0;overflow:auto;font-size:14px}
+body.side-open .sbody{display:block}
+.side .sq{font-size:12px;color:var(--night-mute);padding:12px 4px 6px}
+.side .sb{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px;align-items:baseline;padding:8px 4px;color:var(--night-ink);font-weight:500;border-radius:6px}
+.side .sb:hover{background:var(--night-2)}
+.side .sb .n{font-family:var(--f-mono);font-size:12px;color:var(--night-mute)}
+.side .sch summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:22px minmax(0,1fr) 18px;align-items:center;gap:6px;padding:7px 4px 7px 12px;color:var(--night-mute);border-radius:6px}
+.side .sch summary::-webkit-details-marker{display:none}
+.side .sch summary:hover{color:var(--night-ink);background:var(--night-2)}
+.side .sch[open] summary{color:var(--night-ink)}
+.side .sch summary .n{font-family:var(--f-mono);font-size:12px}
+.side .sch summary .tt{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.side .sch summary .chev{display:flex;color:var(--night-4);transition:transform .2s}
+.side .sch summary .chev svg{width:14px;height:14px}
+.side .sch[open] summary .chev{transform:rotate(180deg)}
+.side .sch ol{list-style:none;margin:0 0 6px;padding:0 0 0 12px}
+.side .sch li a{display:grid;grid-template-columns:16px minmax(34px,auto) minmax(0,1fr) auto;align-items:baseline;gap:8px;padding:6px 4px 6px 10px;color:var(--night-mute);font-size:13px;border-radius:6px}
+.side .sch li a:hover{color:var(--night-ink);background:var(--night-2)}
+.side .sch li.cur a{color:var(--night-ink);font-weight:500;background:var(--night-2)}
+.side .ok{width:12px;height:12px;border-radius:50%;border:1.5px solid var(--night-4);align-self:center;display:flex;align-items:center;justify-content:center;color:var(--night)}
+.side .ok svg{width:9px;height:9px;display:none}
+.side li.done .ok{background:var(--night-ink);border-color:var(--night-ink)}
+.side li.done .ok svg{display:block}
+.side .n{font-family:var(--f-mono);font-size:12px}
+.side .tt{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.side .d{font-family:var(--f-mono);font-size:11px;color:var(--night-4)}
+.side li.cur .d{color:var(--night-mute)}
+/* the dark band a page opens with */
+.band{background:var(--night);color:var(--night-ink)}
+.band .wrap{padding:56px 32px 56px;display:flex;flex-direction:column;gap:12px}
+.band h1{font-size:clamp(32px,4.2vw,48px);font-weight:600;line-height:1.04;letter-spacing:-.028em;max-width:22ch}
+.band .code{font-family:var(--f-mono);font-size:14px;color:var(--night-mute);margin:0}
+.band .lede{font-size:18px;line-height:1.5;color:var(--night-mute);max-width:60ch;margin:0}
+.band .facts{display:flex;flex-wrap:wrap;gap:8px 24px;margin-top:12px;font-size:14px;color:var(--night-mute)}
+.band .facts b{color:var(--night-ink);font-weight:500}
+/* home: the library */
+.library{padding:48px 0 96px;display:flex;flex-direction:column;gap:56px}
+.series{display:flex;flex-direction:column;gap:20px}
+.series h2{font-size:24px;font-weight:600;letter-spacing:-.02em}
+.series .sub{font-size:14px;color:var(--ink-mute);margin:-12px 0 0}
+.books{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.book{display:flex;flex-direction:column;gap:14px;padding:24px;border-radius:12px;background:var(--wash);color:var(--ink);transition:background .15s}
+.book:hover{background:var(--wash-deep)}
+.book .code{font-family:var(--f-mono);font-size:14px;color:var(--ink-mute)}
+.book b{font-size:22px;font-weight:600;letter-spacing:-.015em;line-height:1.2}
+.book .meta{font-size:14px;color:var(--ink-mute);margin-top:auto}
+/* book page: chapters fold open */
+.chapters{padding:24px 0 96px;display:flex;flex-direction:column}
+details.ch{border-bottom:1px solid var(--rule-soft)}
+details.ch:first-of-type{border-top:1px solid var(--rule-soft)}
+details.ch summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:56px minmax(0,1fr) auto 24px;align-items:baseline;gap:16px;padding:22px 4px}
+details.ch summary::-webkit-details-marker{display:none}
+details.ch summary:hover{background:var(--wash)}
+details.ch summary .n{font-family:var(--f-mono);font-size:14px;color:var(--ink-mute)}
+details.ch summary h2{font-size:22px;font-weight:600;letter-spacing:-.015em}
+details.ch summary .meta{font-size:14px;color:var(--ink-mute);white-space:nowrap}
+details.ch summary .chev{width:24px;height:24px;align-self:center;display:flex;align-items:center;justify-content:center;color:var(--ink-mute);transition:transform .2s}
+details.ch summary .chev svg{width:16px;height:16px}
+details.ch[open] summary .chev{transform:rotate(180deg)}
+details.ch .body{padding:8px 4px 40px 76px;display:flex;flex-direction:column;gap:32px}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px 24px}
+.card{display:flex;flex-direction:column;gap:10px;color:var(--ink)}
+.thumb{position:relative;aspect-ratio:16/9;border-radius:8px;overflow:hidden;background:var(--paper);box-shadow:var(--elev2);transition:transform .2s,box-shadow .2s}
+.thumb::after{content:"";position:absolute;inset:0;border-radius:inherit;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08);pointer-events:none}
+.thumb img{width:100%;height:100%;object-fit:cover}
+.thumb .ph{position:absolute;inset:0;padding:8% 9%;display:flex;flex-direction:column;justify-content:center;gap:4px}
+.thumb .ph b{font-size:clamp(18px,2.2vw,30px);font-weight:600;line-height:1.05;letter-spacing:-.02em}
+.thumb .ph small{font-size:12px;color:var(--ink-mute)}
+.card:hover .thumb,.tool:hover .thumb{transform:translateY(-2px);box-shadow:var(--elev3)}
+.dur{position:absolute;right:8px;bottom:8px;font-family:var(--f-mono);font-size:12px;padding:3px 7px;border-radius:4px;background:rgba(14,14,14,.86);color:var(--night-ink)}
+.play{position:absolute;left:50%;top:50%;width:72px;height:72px;transform:translate(-50%,-50%);border-radius:50%;background:var(--night);border:0;padding:0;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:var(--elev3);transition:transform .15s,background .15s}
+.play svg{width:26px;height:26px;margin-left:4px}
+.play:hover{background:#000;transform:translate(-50%,-50%) scale(1.06)}
+.thumb .play{width:48px;height:48px;opacity:0;transition:opacity .15s}
+.thumb .play svg{width:18px;height:18px;margin-left:3px}
+.card:hover .thumb .play,.tool:hover .thumb .play{opacity:1}
+.cb{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:baseline;padding:0 2px}
+.cb .ok{display:none;color:var(--ink-mute)}.cb .ok svg{width:16px;height:16px}
+.card.done .cb .ok{display:block}
+.tool.done .pill::after{content:" · watched"}
+.cb .sec{font-family:var(--f-mono);font-size:14px;color:var(--ink-mute)}
+.cb .tt{font-size:17px;font-weight:500;line-height:1.3}
+.tools{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.tool{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:16px;align-items:center;padding:12px;border-radius:12px;background:var(--wash);color:var(--ink);transition:background .15s}
+.tool:hover{background:var(--wash-deep)}
+.tool .thumb{border-radius:6px;box-shadow:var(--elev1)}
+.tool .tb{display:flex;flex-direction:column;gap:4px}
+.pill{align-self:flex-start;font-size:12px;font-weight:500;padding:3px 9px;border-radius:999px;background:var(--paper);color:var(--ink-mute)}
+.tool.exam .pill{background:var(--ink);color:var(--paper)}
+.tool b{font-size:17px;font-weight:500;line-height:1.3}
+.tool .tm{font-family:var(--f-mono);font-size:12px;color:var(--ink-mute)}
+/* lesson: the stage fills the window and centres what it holds */
+.stage{background:var(--night);color:var(--night-ink);min-height:calc(100vh - 52px);display:grid;align-content:center}
+.stage .wrap{max-width:none;width:100%;margin:0;display:grid;grid-template-columns:240px minmax(0,1fr) 272px;gap:32px;align-items:start;padding:24px 32px 32px}
+.rail{display:flex;flex-direction:column;gap:24px;font-size:14px}
+.rail .crumbs{display:flex;flex-direction:column;gap:2px;font-size:13px;color:var(--night-mute)}
+.rail .crumbs a:hover{color:var(--night-ink)}
+.rail h1{font-size:26px;font-weight:600;line-height:1.08;letter-spacing:-.024em;margin-top:8px}
+.rail h1 .num{color:var(--night-mute);font-weight:500;margin-right:.2em}
+.rail .lede{font-size:14px;line-height:1.5;color:var(--night-mute);margin:8px 0 0}
+.h3{font-size:13px;font-weight:500;color:var(--night-mute);margin:0 0 8px}
+.timeline{list-style:none;margin:0;padding:0;position:relative}
+.timeline::before,.timeline .fill{content:"";position:absolute;left:5px;top:14px;bottom:14px;width:2px;background:var(--night-3)}
+.timeline .fill{background:var(--night-ink);bottom:auto;height:0;transition:height .4s linear}
+.timeline a{position:relative;display:grid;grid-template-columns:24px 44px minmax(0,1fr);align-items:center;gap:6px;padding:7px 0;color:var(--night-mute);font-size:14px}
+.timeline a::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--night);border:2px solid var(--night-3);margin-left:1px;transition:border-color .15s,background .15s}
+.timeline a:hover{color:var(--night-ink)}.timeline a:hover::before{border-color:var(--night-mute)}
+.timeline a.done::before{border-color:var(--night-ink);background:var(--night-ink)}
+.timeline a.now{color:var(--night-ink);font-weight:500}.timeline a.now::before{border-color:var(--night-ink);background:var(--night)}
+.timeline a .t{font-family:var(--f-mono);font-size:12px;color:var(--night-mute);font-variant-numeric:tabular-nums}
+.centre{display:flex;flex-direction:column;align-items:center;min-width:0}
+/* the player: frame above, one bar below, one object */
+.player{width:min(100%,calc((100vh - 52px - 56px - 64px) * 16 / 9));border-radius:12px;overflow:hidden;background:var(--night-2);box-shadow:var(--elev5),0 0 0 1px rgba(255,255,255,.06)}
+.video{position:relative;aspect-ratio:16/9;background:var(--paper);container-type:inline-size}
+.video img,.video iframe,.video .yt{position:absolute;inset:0;width:100%;height:100%;border:0}
+.video iframe{pointer-events:none}
+.video img{object-fit:cover}
+.video .ph{position:absolute;inset:0;padding:5% 6%;display:flex;flex-direction:column;justify-content:center;gap:8px;color:var(--ink)}
+.video .ph b{font-size:clamp(28px,4vw,56px);font-weight:600;line-height:1.04;letter-spacing:-.024em;max-width:70%}
+.video .ph span{font-size:clamp(14px,1.4vw,20px);color:var(--ink-mute);max-width:70%}
+.video .play{width:84px;height:84px}.video .play svg{width:32px;height:32px}
+.video.pending .play{background:var(--dim);cursor:default;transform:translate(-50%,-50%)}
+.video .shield{position:absolute;inset:0;cursor:pointer;z-index:2}
+.video .held{position:absolute;inset:0;z-index:3;background:var(--paper);opacity:0;visibility:hidden;transition:opacity .35s,visibility 0s .35s}
+.video .held img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.video .held .play{z-index:1}
+.video.paused .held,.video.grace .held{opacity:1;visibility:visible;transition:opacity .15s}
+.video.grace .held .play{display:none}
+.bar{display:flex;flex-direction:column;padding:0 12px 6px;color:var(--night-mute);font-family:var(--f-mono);font-size:13px;font-variant-numeric:tabular-nums}
+.seek{position:relative;height:18px;display:flex;align-items:center;cursor:pointer}
+.seek .segs{position:relative;width:100%;height:4px;display:flex;gap:2px;transition:height .1s}
+.seek:hover .segs{height:6px}
+.seek .segs i{display:block;height:100%;background:var(--night-4);border-radius:2px;position:relative;overflow:hidden}
+.seek .segs i b{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--night-ink)}
+.seek .knob{position:absolute;top:50%;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;background:var(--night-ink);left:0;opacity:0;transition:opacity .1s;pointer-events:none}
+.seek:hover .knob{opacity:1}
+.seek .tip{position:absolute;bottom:100%;transform:translateX(-50%);padding:4px 8px;border-radius:4px;background:var(--night-ink);color:var(--night);font-family:var(--f-body);font-size:12px;white-space:nowrap;opacity:0;pointer-events:none}
+.seek:hover .tip{opacity:1}
+.row{display:flex;align-items:center;gap:4px;height:40px}
+.row .sp{flex:1}
+.row button{flex:none;width:36px;height:36px;border:0;border-radius:6px;background:transparent;color:var(--night-ink);display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0}
+.row button:hover{background:var(--night-3)}
+.row button svg{width:20px;height:20px}
+.row .cap{display:flex;align-items:center;margin:0 6px}
+.row button.cc{font-family:var(--f-body);font-size:11px;font-weight:600;letter-spacing:.02em;border:1.5px solid var(--night-mute);color:var(--night-mute);width:auto;padding:0 6px;height:20px;border-radius:3px;line-height:1}
+.row button.cc:hover{background:transparent;border-color:var(--night-ink);color:var(--night-ink)}
+.row button.cc[aria-pressed="true"]{position:relative;z-index:1;border-color:var(--night-ink);background:var(--night-ink);color:var(--night)}
+.row button.cc+button.cc{margin-left:-1.5px}
+.row .cap button.cc:first-child:not(:last-child){border-radius:3px 0 0 3px}
+.row .cap button.cc:last-child:not(:first-child){border-radius:0 3px 3px 0}
+.row button.cc .zh{font-family:var(--f-cjk);font-weight:500;font-size:12px;letter-spacing:0}
+.video .caps{position:absolute;left:0;right:0;bottom:4%;z-index:4;display:flex;justify-content:center;padding:0 8%;pointer-events:none}
+.video .caps .plate{display:flex;flex-direction:column;align-items:center;gap:.06em;max-width:100%;padding:.3em .75em .36em;border-radius:.3em;background:rgba(14,14,14,.72);color:var(--night-ink);text-align:center;font-family:var(--f-body);font-size:clamp(12px,1.8cqw,24px);line-height:1.3;text-wrap:balance}
+.video .caps .plate:empty{display:none}
+.video .caps .en{font-weight:500;letter-spacing:-.005em}
+.video .caps .zh{font-family:var(--f-cjk);font-weight:400;font-size:.92em;color:#DADADA}
+.video .caps .zh:only-child{color:var(--night-ink)}
+.row button.spd{font-family:var(--f-mono);font-size:12px;color:var(--night-mute);width:auto;padding:0 8px}
+.row button.spd[data-on="1"]{color:var(--night-ink)}
+.row .tm{margin-left:8px;white-space:nowrap}.row .tm b{font-weight:500;color:var(--night-ink)}
+.soon{font-size:13px;font-family:var(--f-body);padding:3px 10px;border-radius:999px;background:var(--night-3);color:var(--night-mute)}
+.pn{display:flex;justify-content:space-between;gap:16px;width:min(100%,calc((100vh - 52px - 56px - 64px) * 16 / 9));margin-top:14px}
+.pn a{display:flex;align-items:center;gap:8px;color:var(--night-mute);font-size:13px;padding:6px 8px;border-radius:8px;max-width:48%}
+.pn a:hover{color:var(--night-ink);background:var(--night-2)}
+.pn a span{display:flex;flex-direction:column;min-width:0}
+.pn a small{font-size:12px}.pn a b{font-weight:500;color:var(--night-ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pn a svg{width:18px;height:18px;flex:none}
+.pn .next{text-align:right}
+.video .upnext{position:absolute;right:16px;bottom:16px;z-index:4;display:flex;flex-direction:column;gap:2px;padding:10px 14px;border-radius:8px;background:var(--night);color:var(--night-ink);box-shadow:var(--elev3);font-size:13px}
+.video .upnext small{color:var(--night-mute);font-size:12px}
+.video .upnext b{font-weight:500}
+.video .upnext:hover{background:#000}
+.centre:fullscreen{background:var(--night);justify-content:center;padding:24px}
+.centre:fullscreen .pn{display:none}
+.centre:fullscreen .player{width:min(100%,calc((100vh - 48px - 64px) * 16 / 9))}
+.recap{background:var(--night-2);border-radius:12px;padding:18px 20px 20px}
+.recap ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.recap li{display:grid;grid-template-columns:24px minmax(0,1fr);gap:6px;font-size:14px;line-height:1.5;color:var(--night-ink)}
+.recap li i{font-style:normal;font-family:var(--f-mono);font-size:13px;color:var(--night-mute);padding-top:2px}
+.recap .katex{color:var(--night-ink)}
+.nextcard{display:grid;grid-template-columns:88px minmax(0,1fr);gap:12px;align-items:center;color:var(--night-ink);padding:10px;border-radius:12px;background:var(--night-2);transition:background .15s}
+.nextcard:hover{background:var(--night-3)}
+.nextcard .thumb{border-radius:6px;box-shadow:none}
+.nextcard .nb{display:flex;flex-direction:column;gap:1px}
+.nextcard small{font-size:12px;color:var(--night-mute)}
+.nextcard b{font-size:14px;font-weight:500;line-height:1.3}
+.katex{font-size:1.04em}
+@media (max-width:920px){
+  header.top .crumbs{display:none}
+  .books,.grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .pn{width:100%}
+  .stage{min-height:0;display:block}
+  .app{grid-template-columns:minmax(0,1fr)}
+  .side{display:none}
+  .stage .wrap{grid-template-columns:1fr 1fr;gap:24px 32px}
+  .stage .centre{grid-column:1 / -1;order:-1}
+  .player{width:100%}
+  details.ch .body{padding-left:4px}
+}
+@media (max-width:600px){
+  .wrap,header.top .wrap,.band .wrap,.stage .wrap{padding-left:20px;padding-right:20px}
+  .books,.grid,.tools{grid-template-columns:1fr}
+  .tool{grid-template-columns:minmax(0,2fr) minmax(0,3fr)}
+  .stage .wrap{grid-template-columns:1fr;padding:16px 20px 24px}
+  .player{border-radius:8px}.video .play{width:64px;height:64px}.video .play svg{width:24px;height:24px}
+  details.ch summary{grid-template-columns:40px minmax(0,1fr) 24px}details.ch summary .meta{display:none}
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body class="lesson" data-key="P1/01-algebraic-expressions/1.5-surds.html">
+<header class="top"><div class="wrap">
+  <a class="brand" href="../../index.html"><svg class="mark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-label="Py"><path d="M3.5 6.5c1.5 0 2.5-.6 3-1.5"></path><path d="M5 6.5h15.5"></path><path d="M8.5 6.5v12.5"></path><path d="M15.5 6.5v9.5c0 1.8 1.2 2.9 2.8 2.9.9 0 1.6-.3 2.2-.9"></path></svg><span>Study</span></a>
+  <nav class="crumbs" aria-label="Breadcrumb"><a href="../../index.html">Pearson Edexcel International A Level</a><i>/</i><a href="../index.html">Pure Mathematics 1</a><i>/</i><a href="../index.html#ch1">Chapter 1</a></nav>
+</div></header>
+<div class="app">
+<aside class="side" aria-label="Library">
+  <button class="otog" type="button" aria-label="Library" aria-expanded="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"></rect><path d="M9 4v16"></path></svg></button>
+  <div class="sbody"><div class="sq">Pearson Edexcel International A Level</div><a class="sb cur" href="../index.html"><span class="n">P1</span><span class="tt">Pure Mathematics 1</span></a><details class="sch" open><summary><span class="n">1</span><span class="tt">Algebraic expressions</span><span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></span></summary><ol><li data-key="P1/01-algebraic-expressions/1.1-index-laws.html"><a href="1.1-index-laws.html"><span class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></span><span class="n">1.1</span><span class="tt">Index laws</span><span class="d">4:23</span></a></li><li data-key="P1/01-algebraic-expressions/1.2-expanding-brackets.html"><a href="1.2-expanding-brackets.html"><span class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></span><span class="n">1.2</span><span class="tt">Expanding brackets</span><span class="d">3:39</span></a></li><li data-key="P1/01-algebraic-expressions/1.3-factorising.html"><a href="1.3-factorising.html"><span class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></span><span class="n">1.3</span><span class="tt">Factorising</span><span class="d">3:58</span></a></li><li data-key="P1/01-algebraic-expressions/1.4-fractional-indices.html"><a href="1.4-fractional-indices.html"><span class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></span><span class="n">1.4</span><span class="tt">Negative and fractional indices</span><span class="d">3:58</span></a></li><li class=cur data-key="P1/01-algebraic-expressions/1.5-surds.html"><a href="1.5-surds.html" aria-current=page><span class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></span><span class="n">1.5</span><span class="tt">Surds</span><span class="d">4:08</span></a></li><li data-key="P1/01-algebraic-expressions/1.6-rationalising-denominators.html"><a href="1.6-rationalising-denominators.html"><span class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></span><span class="n">1.6</span><span class="tt">Rationalising denominators</span><span class="d">3:48</span></a></li><li data-key="P1/01-algebraic-expressions/review.html"><a href="review.html"><span class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></span><span class="n">review</span><span class="tt">Chapter 1 review</span><span class="d">3:03</span></a></li><li data-key="P1/01-algebraic-expressions/exam-questions.html"><a href="exam-questions.html"><span class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></span><span class="n">exam</span><span class="tt">Chapter 1 exam questions</span><span class="d">3:10</span></a></li></ol></details></div>
+</aside>
+<div id="app">
+<section class="stage"><div class="wrap">
+  <div class="rail">
+    <div>
+      <h1><span class="num">1.5</span>Surds</h1>
+      <p class="lede">Exact answers with roots in them, and how to simplify them without a calculator.</p>
+    </div>
+    <section><h3 class="h3">In this lesson</h3><ol class="timeline" data-total="248"><span class="fill"></span><li><a href="#t=0" data-t="0" data-frame="1.5-surds.s01.jpg"><span class="t">0:00</span><span>Title</span></a></li><li><a href="#t=26" data-t="26" data-frame="1.5-surds.s02.jpg"><span class="t">0:26</span><span>The rules</span></a></li><li><a href="#t=77" data-t="77" data-frame="1.5-surds.s03.jpg"><span class="t">1:17</span><span>Worked example 1</span></a></li><li><a href="#t=124" data-t="124" data-frame="1.5-surds.s04.jpg"><span class="t">2:04</span><span>Worked example 2</span></a></li><li><a href="#t=159" data-t="159" data-frame="1.5-surds.s05.jpg"><span class="t">2:39</span><span>Common mistakes</span></a></li><li><a href="#t=188" data-t="188" data-frame="1.5-surds.s06.jpg"><span class="t">3:08</span><span>Exam tip</span></a></li><li><a href="#t=220" data-t="220" data-frame="1.5-surds.s07.jpg"><span class="t">3:40</span><span>Recap</span></a></li></ol></section>
+  </div>
+  <div class="centre">
+    <div class="player">
+      <div class="video" data-id="DGmTwOCVwqE" data-title="P1 1.5 Surds" data-poster="1.5-surds.jpg"><img src="1.5-surds.jpg" alt="" width="960" height="540"><button class="play" type="button" aria-label="Play"><svg viewBox="0 0 30 34" aria-hidden="true"><path d="M2 2 L28 17 L2 32 Z" fill="#F3F3F3" stroke="#F3F3F3" stroke-width="2" stroke-linejoin="round"></path></svg></button></div>
+      <div class="bar"><div class="seek" role="slider" aria-label="Seek"><div class="segs"><i data-a="0" data-b="26" style="flex:0 0 calc(10.458% - 2px)" title="Title"><b></b></i><i data-a="26" data-b="77" style="flex:0 0 calc(20.513% - 2px)" title="The rules"><b></b></i><i data-a="77" data-b="124" style="flex:0 0 calc(18.904% - 2px)" title="Worked example 1"><b></b></i><i data-a="124" data-b="159" style="flex:0 0 calc(14.078% - 2px)" title="Worked example 2"><b></b></i><i data-a="159" data-b="188" style="flex:0 0 calc(11.664% - 2px)" title="Common mistakes"><b></b></i><i data-a="188" data-b="220" style="flex:0 0 calc(12.871% - 2px)" title="Exam tip"><b></b></i><i data-a="220" data-b="248.62" style="flex:0 0 calc(11.512% - 2px)" title="Recap"><b></b></i></div><span class="knob"></span><span class="tip"></span></div><div class="row"><button class="pp" type="button" aria-label="Play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l12-7.5z"></path></svg></button><button class="back" type="button" aria-label="Back 10 seconds"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"></path><path d="M3 4v5h5"></path><text x="12" y="15.5" font-size="8" font-family="IBM Plex Sans,sans-serif" font-weight="600" fill="currentColor" stroke="none" text-anchor="middle">10</text></svg></button><button class="fwd" type="button" aria-label="Forward 10 seconds"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-3-6.7"></path><path d="M21 4v5h-5"></path><text x="12" y="15.5" font-size="8" font-family="IBM Plex Sans,sans-serif" font-weight="600" fill="currentColor" stroke="none" text-anchor="middle">10</text></svg></button><span class="tm"><b class="cur">0:00</b> / <span class="tot">4:08</span></span><span class="sp"></span><span class="cap"><button class="cc" data-lang="en" type="button" aria-pressed="false" aria-label="English captions"><span>EN</span></button><button class="cc" data-lang="zh" type="button" aria-pressed="false" aria-label="中文字幕"><span class="zh">中</span></button></span><button class="spd" type="button" aria-label="Playback speed">1×</button><button class="fs" type="button" aria-label="Full screen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"></path></svg></button></div></div><script type="application/json" class="cues">{"en": [[0.0, 4.032, "Welcome. This is section one point five, surds."], [4.032, 7.371, "Root two is one point four one four two"], [7.371, 10.624, "one three five six, and it never ends."], [10.624, 13.016, "So when an exam says do not use your"], [13.016, 16.47, "calculator, root two is the answer, not the decimal."], [16.47, 19.828, "Roots like that are called surds."], [19.828, 23.1, "We will learn the rules for handling them one at a time,"], [23.1, 26.606, "simplify a messy sum, and expand brackets that contain them."], [26.606, 29.252, "The rules, one at a time."], [29.252, 33.071, "The root of a product splits into the product of the roots."], [33.071, 37.957, "Root twelve is root four times root three, which is two root three."], [37.957, 41.776, "That is how every surd gets simplified."], [41.776, 45.774, "The root of a fraction splits the same way."], [45.774, 49.734, "Root of nine over four is three over two."], [49.734, 52.7, "A root times itself gives the number back."], [52.7, 57.906, "Root three times root three is three. You will use this constantly."], [57.906, 62.079, "And the one that does not exist: nothing splits over a plus."], [62.079, 64.896, "Root of nine plus sixteen is five, but"], [64.896, 67.639, "root nine plus root sixteen is seven."], [67.639, 71.351, "A surd is a root that is not a whole number."], [71.351, 77.421, "Its decimal never ends, so the surd itself is the exact value."], [77.421, 81.099, "Simplifying a surd means pulling out square factors."], [81.099, 85.345, "For seventy-two, use the largest square factor, thirty-six."], [85.345, 87.895, "If you took nine you would get three"], [87.895, 91.011, "root eight, and root eight still simplifies."], [91.011, 94.723, "Root thirty-six is six. Six root two."], [94.723, 97.369, "Root twenty over two."], [97.369, 101.828, "Simplify the surd on top first: root four times root five."], [101.828, 105.933, "Root four is two, so that is two root five over two."], [105.933, 108.613, "The twos cancel. Root five."], [108.613, 112.466, "A surd times a bracket expands like any bracket."], [112.466, 115.356, "Root two times five is five root two,"], [115.356, 118.559, "and root two times root three comes next."], [118.559, 124.377, "Root two times root three is root six. Five root two minus root six."], [124.377, 126.567, "A sum of three different surds looks"], [126.567, 129.122, "impossible until you notice the first one."], [129.122, 133.154, "Root six is already simple, so look for a factor of six in the others."], [133.154, 137.72, "Twenty-four is four times six, so root twenty-four is two root six."], [137.72, 140.037, "Two hundred and ninety-four is"], [140.037, 143.745, "forty-nine times six, so that is seven root six."], [143.745, 148.311, "Substitute back. Two times two root six is four root six."], [148.311, 152.663, "Now every term is a multiple of root six, so they are like terms."], [152.663, 154.775, "Collect the coefficients."], [154.775, 159.279, "Five minus four plus seven is eight. Eight root six."], [159.279, 162.705, "Two slips that cost marks every year."], [162.705, 167.057, "First: root two plus root three is not root five."], [167.057, 169.553, "Different surds are unlike terms,"], [169.553, 172.655, "exactly like x and y. They stay separate."], [172.655, 176.653, "Second: stopping at a square factor that is not the largest."], [176.653, 179.481, "Root forty-eight as two root twelve is not"], [179.481, 183.386, "simplified, because root twelve still has a square factor."], [183.386, 188.777, "Check the surd you leave behind. If it still simplifies, go again."], [188.777, 191.495, "An exam question with surds in brackets."], [191.495, 195.92, "Expand exactly as you would with x: four products, all written down."], [195.92, 201.552, "Ten, plus two root three, minus five root three, minus root nine."], [201.552, 203.664, "Only then simplify."], [203.664, 206.268, "Root nine is three, and the root three"], [206.268, 209.01, "terms collect to minus three root three."], [209.01, 211.476, "Seven minus three root three."], [211.476, 213.819, "When the question says do not use your"], [213.819, 216.716, "calculator, the marks are for the surd working."], [216.716, 220.294, "A decimal scores nothing, however accurate."], [220.294, 222.052, "To recap."], [222.052, 225.508, "Roots split over multiplication and division, never over"], [225.508, 228.964, "addition, and a root times itself gives the number back."], [228.964, 233.815, "Simplify by pulling out the largest square factor, and check what is left."], [233.815, 238.628, "Multiples of the same surd are like terms. Different surds stay apart."], [238.628, 243.727, "With brackets, expand every product first, then simplify."], [243.727, 248.623, "Next, section one point six: rationalising denominators."]], "zh": [[0.0, 4.032, "欢迎。这是第一章第五节：根式。"], [4.032, 10.624, "根号二等于一点四一四二一三五六，而且永远写不完。"], [10.624, 16.47, "所以当考试说\"不得使用计算器\"时，答案就是根号二，而不是小数。"], [16.47, 19.828, "这样的根就叫做根式。"], [19.828, 26.606, "我们会一条一条地学习处理根式的法则，化简一个复杂的和，再展开含根式的括号。"], [26.606, 29.252, "法则，一条一条来。"], [29.252, 33.071, "积的平方根等于平方根的积。"], [33.071, 37.957, "根号十二等于根号四乘根号三，也就是二根号三。"], [37.957, 41.776, "每一个根式都是这样化简的。"], [41.776, 45.774, "商的平方根也一样可以拆开。"], [45.774, 49.734, "四分之九的平方根等于二分之三。"], [49.734, 52.7, "一个根号乘以它自己，就得回原来的数。"], [52.7, 57.906, "根号三乘根号三等于三。这一条你会一直用到。"], [57.906, 62.079, "还有一条并不存在的\"法则\"：根号不能拆到加号两边。"], [62.079, 67.639, "九加十六的平方根等于五，但根号九加根号十六等于七。"], [67.639, 71.351, "根式就是开不尽的根。"], [71.351, 77.421, "它的小数永远写不完，所以根式本身就是精确值。"], [77.421, 81.099, "化简根式就是把平方因数提出来。"], [81.099, 85.345, "对于七十二，用最大的平方因数，三十六。"], [85.345, 91.011, "如果用九，会得到三根号八，而根号八还能继续化简。"], [91.011, 94.723, "根号三十六等于六。六根号二。"], [94.723, 97.369, "根号二十除以二。"], [97.369, 101.828, "先化简分子上的根式：根号四乘根号五。"], [101.828, 105.933, "根号四等于二，所以是二根号五除以二。"], [105.933, 108.613, "两个二约掉。根号五。"], [108.613, 112.466, "根式乘以括号，和普通括号一样展开。"], [112.466, 118.559, "根号二乘五是五根号二，接着是根号二乘根号三。"], [118.559, 124.377, "根号二乘根号三等于根号六。五根号二减根号六。"], [124.377, 129.122, "三个不同根式的和看起来无从下手，直到你注意到第一项。"], [129.122, 133.154, "根号六已经是最简形式，所以在其他项里找因数六。"], [133.154, 137.72, "二十四等于四乘六，所以根号二十四等于二根号六。"], [137.72, 143.745, "二百九十四等于四十九乘六，所以它等于七根号六。"], [143.745, 148.311, "代回去。二乘二根号六等于四根号六。"], [148.311, 152.663, "现在每一项都是根号六的倍数，所以它们是同类项。"], [152.663, 154.775, "把系数合并。"], [154.775, 159.279, "五减四加七等于八。八根号六。"], [159.279, 162.705, "两个每年都在丢分的错误。"], [162.705, 167.057, "第一：根号二加根号三不等于根号五。"], [167.057, 172.655, "不同的根式是不同类的项，就像 x 和 y 一样。它们要分开写。"], [172.655, 176.653, "第二：停在一个不是最大的平方因数上。"], [176.653, 183.386, "把根号四十八写成二根号十二并没有化简完，因为根号十二还有平方因数。"], [183.386, 188.777, "检查剩下的根式。如果还能化简，就继续。"], [188.777, 191.495, "一道括号里含根式的考题。"], [191.495, 195.92, "和含 x 的括号完全一样地展开：四个乘积，全部写出来。"], [195.92, 201.552, "十，加二根号三，减五根号三，减根号九。"], [201.552, 203.664, "然后才化简。"], [203.664, 209.01, "根号九等于三，根号三的项合并为负三根号三。"], [209.01, 211.476, "七减三根号三。"], [211.476, 216.716, "当题目说\"不得使用计算器\"时，分数是给根式运算过程的。"], [216.716, 220.294, "写成小数一分都不得，不管精确到多少位。"], [220.294, 222.052, "总结一下。"], [222.052, 228.964, "根号可以拆到乘法和除法两边，绝不能拆到加法两边，根号乘以自己得回原来的数。"], [228.964, 233.815, "用最大的平方因数化简，并检查剩下的部分。"], [233.815, 238.628, "同一个根式的倍数是同类项。不同的根式要分开写。"], [238.628, 243.727, "遇到括号，先把每个乘积展开，再化简。"], [243.727, 248.623, "下一节，第一章第六节：分母有理化。"]]}</script>
+    </div>
+    <div class="pn"><a class="prev" href="1.4-fractional-indices.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg><span><small>Previous</small><b>1.4 Negative and fractional indices</b></span></a><a class="next" href="1.6-rationalising-denominators.html" data-next="1"><span><small>Next</small><b>1.6 Rationalising denominators</b></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></a></div>
+  </div>
+  <div class="rail">
+    <section class="recap"><h3 class="h3">Recap</h3><ol><li><i>1</i><span>\( \sqrt{ab} = \sqrt{a}\sqrt{b} \) and \( \sqrt{a}\sqrt{a} = a \). Nothing splits over a plus.</span></li><li><i>2</i><span>Simplify by pulling out the largest square factor. Check what is left.</span></li><li><i>3</i><span>Multiples of the same surd are like terms. Different surds stay apart.</span></li><li><i>4</i><span>With brackets, expand every product first, then simplify the roots.</span></li></ol></section>
+    <a class="nextcard" href="1.6-rationalising-denominators.html"><div class="thumb"><img src="1.6-rationalising-denominators.card.jpg" alt="" loading="lazy" width="960" height="540"></div><span class="nb"><small>Up next · 1.6</small><b>Rationalising denominators</b><small>3:48</small></span></a><a class="nextcard exam" href="exam-questions.html"><div class="thumb"><img src="exam-questions.card.jpg" alt="" loading="lazy" width="960" height="540"></div><span class="nb"><small>Chapter 1</small><b>Exam questions</b><small>3:10</small></span></a>
+  </div>
+</div></section>
+</div>
+</div>
+<script src="../../katex/katex.min.js"></script>
+<script src="../../katex/auto-render.min.js"></script>
+<script>
+(function(){
+  /* The player is YouTube's; the picture is ours. YouTube draws its own
+     chrome on the frame while loading, for ~3 s after any state change,
+     while paused, while buffering, and at the end. The rule: whenever the
+     frame is not simply playing clean, the rendered slide covers it. */
+  var player=null, timer=null, pending=0, video=null, poster='', grace=null, watchdog=null;
+  /* captions are drawn by the page from the cue tracks inline in the lesson;
+     which languages show is remembered per browser. First visit: a Chinese
+     browser gets English and 中文, any other gets English. */
+  var cues={}, caps=null, lastCaps=null, capShown=null;
+  function capDefault(){ var zh=/^zh/i.test(navigator.language||''); return {en:true, zh:zh}; }
+  try{ caps=JSON.parse(localStorage.getItem('caps')||'null'); }catch(e){}
+  if(!caps || typeof caps!=='object') caps=capDefault();
+  var GRACE_MS=3600;
+  var PLAY='<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l12-7.5z"></path></svg>';
+  var PAUSE='<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 4.5h4.5v15H6zM13.5 4.5H18v15h-4.5z"></path></svg>';
+  var PLAYBIG='<svg viewBox="0 0 30 34" aria-hidden="true"><path d="M2 2 L28 17 L2 32 Z" fill="#F3F3F3" stroke="#F3F3F3" stroke-width="2" stroke-linejoin="round"></path></svg>';
+  var RATES=[0.75,1,1.25,1.5,1.75,2], rate=1;
+  try{ rate=parseFloat(localStorage.getItem('rate'))||1; if(RATES.indexOf(rate)<0) rate=1; }catch(e){}
+  function q(sel){ return document.querySelector(sel); }
+  function clock(s){ s=Math.max(0,Math.floor(s)); return Math.floor(s/60)+':'+('0'+s%60).slice(-2); }
+  function marks(){ return Array.prototype.slice.call(document.querySelectorAll('.timeline a[data-t]')); }
+  function total(){ var d=player&&player.getDuration?player.getDuration():0; return d||parseFloat((q('.timeline')||{dataset:{}}).dataset.total)||0; }
+  function now(){ return player&&player.getCurrentTime?player.getCurrentTime():pending; }
+  function frameFor(t){
+    var src=''; marks().forEach(function(a){ if(parseFloat(a.dataset.t)<=t+0.5 && a.dataset.frame) src=a.dataset.frame; });
+    return src || (video&&video.dataset.poster) || '';
+  }
+  function hold(state, t){   // 'paused' | 'grace' | 'hold' | ''
+    if(!video) return;
+    var held=video.querySelector('.held'); if(!held) return;
+    clearTimeout(grace); grace=null;
+    video.classList.remove('paused','grace');
+    if(!state) return;
+    var src=frameFor(t==null?now():t);
+    if(src) held.querySelector('img').src=src;
+    video.classList.add(state==='paused'?'paused':'grace');
+    if(state==='grace') grace=setTimeout(function(){ video.classList.remove('grace'); }, GRACE_MS);
+  }
+  function paint(t, dur){
+    var tl=q('.timeline');
+    if(tl){
+      var ms=marks(), cur=-1;
+      ms.forEach(function(a,i){ if(parseFloat(a.dataset.t)<=t+0.5) cur=i; });
+      ms.forEach(function(a,i){ a.classList.toggle('done', i<cur); a.classList.toggle('now', i===cur); });
+      var fill=tl.querySelector('.fill');
+      if(fill && ms.length){
+        var top=ms[0].offsetTop+14, span=ms[ms.length-1].offsetTop+14-top, frac=dur?Math.max(0,Math.min(1,t/dur)):0;
+        fill.style.top=top+'px'; fill.style.height=Math.max(0,span*frac)+'px';
+      }
+    }
+    var c=q('.bar .cur'); if(c) c.textContent=clock(t);
+    if(dur){
+      var frac2=Math.max(0,Math.min(1,t/dur));
+      document.querySelectorAll('.seek .segs i').forEach(function(seg){
+        var a=parseFloat(seg.dataset.a), b=parseFloat(seg.dataset.b), f=(t-a)/(b-a);
+        seg.querySelector('b').style.width=(100*Math.max(0,Math.min(1,f)))+'%';
+      });
+      var knob=q('.seek .knob'); if(knob) knob.style.left=(100*frac2)+'%';
+    }
+  }
+  function playing(){ return player && player.getPlayerState && player.getPlayerState()===YT.PlayerState.PLAYING; }
+  function icon(){ var b=q('.bar .pp'); if(!b) return; b.innerHTML=playing()?PAUSE:PLAY; b.setAttribute('aria-label', playing()?'Pause':'Play'); }
+  function tick(){
+    if(!player || !player.getCurrentTime) return;
+    var t=player.getCurrentTime(), d=player.getDuration()||0;
+    paint(t, d); paintCaps(t);
+    if(d && t/d>0.9) markWatched();
+    if(d && d-t<0.8 && !video.classList.contains('grace') && !video.classList.contains('paused')) hold('hold', t);
+  }
+  /* what has been watched, per browser: a tick in the outline and on the book page */
+  function watched(){ try{ return JSON.parse(localStorage.getItem('watched')||'{}')||{}; }catch(e){ return {}; } }
+  function markWatched(){
+    var key=document.body.dataset.key; if(!key) return;
+    var w=watched(); if(w[key]) return; w[key]=1;
+    try{ localStorage.setItem('watched', JSON.stringify(w)); }catch(e){}
+    paintWatched(document);
+  }
+  function paintWatched(scope){
+    var w=watched();
+    scope.querySelectorAll('[data-key]').forEach(function(el){ if(el.dataset.key && w[el.dataset.key]) el.classList.add('done'); });
+  }
+  function stop(ended){
+    clearInterval(timer); timer=null; clearTimeout(grace); grace=null; clearTimeout(watchdog); watchdog=null;
+    if(player && player.destroy){ try{player.destroy();}catch(e){} }
+    player=null;
+    if(video){ video.classList.remove('paused','grace'); video.innerHTML=poster;
+      var b=video.querySelector('.play'); if(b) b.addEventListener('click', function(){ mount(0); });
+      var nx=q('.pn a[data-next]');
+      if(ended && nx){
+        var up=document.createElement('a'); up.className='upnext'; up.href=nx.getAttribute('href');
+        up.innerHTML='<small>'+nx.querySelector('small').textContent+'</small><b>'+nx.querySelector('b').textContent+'</b>';
+        video.appendChild(up);
+      }
+    }
+    paint(0, total()); icon();
+  }
+  function speed(r){
+    rate=r; try{localStorage.setItem('rate',String(r));}catch(e){}
+    var b=q('.bar .spd'); if(b){ b.textContent=(r%1?r:r.toFixed(0))+'×'; b.dataset.on=r===1?'0':'1'; }
+    if(player && player.setPlaybackRate) player.setPlaybackRate(r);
+  }
+  function speedStep(d){ var i=RATES.indexOf(rate); speed(RATES[Math.max(0,Math.min(RATES.length-1,i+d))]); }
+  function ready(){
+    video=q('.video[data-id]'); if(!video || player) return;
+    poster=poster||video.innerHTML;
+    var host=document.createElement('div'); host.className='yt';
+    var shield=document.createElement('div'); shield.className='shield'; shield.title='Click to pause, double-click for full screen';
+    var held=document.createElement('div'); held.className='held';
+    held.innerHTML='<img alt=""><button class="play" type="button" aria-label="Play">'+PLAYBIG+'</button>';
+    var capbox=document.createElement('div'); capbox.className='caps'; capbox.setAttribute('aria-live','off'); capbox.innerHTML='<div class="plate"></div>';
+    video.innerHTML=''; video.appendChild(host); video.appendChild(shield); video.appendChild(held); video.appendChild(capbox);
+    capShown=null; paintCaps(pending);
+    [shield, held].forEach(function(el){
+      el.addEventListener('click', toggle);
+      el.addEventListener('dblclick', function(){ fullscreen(); });
+    });
+    hold('hold', pending);
+    clearTimeout(watchdog);
+    watchdog=setTimeout(function(){
+      if(player && player.getPlayerState && player.getPlayerState()!==YT.PlayerState.PLAYING && player.getPlayerState()!==YT.PlayerState.BUFFERING) hold('paused', pending);
+    }, 5000);
+    player=new YT.Player(host,{videoId:video.dataset.id,host:'https://www.youtube-nocookie.com',
+      playerVars:{controls:0,disablekb:1,fs:0,rel:0,iv_load_policy:3,modestbranding:1,autoplay:1,playsinline:1,cc_load_policy:3,start:pending||0},
+      events:{
+        onReady:function(e){
+          var f=e.target.getIframe(); if(f){ f.tabIndex=-1; f.setAttribute('aria-hidden','true'); f.style.pointerEvents='none'; }
+          e.target.setPlaybackRate(rate);
+          try{ e.target.unloadModule('captions'); }catch(x){}   // the page draws captions; YouTube's stay off
+          if(pending>0) e.target.seekTo(pending,true);   // a marker clicked while loading
+          e.target.playVideo(); tick();
+        },
+        onStateChange:function(e){
+          clearInterval(timer); timer=null;
+          var S=YT.PlayerState;
+          if(e.data===S.ENDED){ markWatched(); stop(true); return; }
+          if(e.data===S.PLAYING){ clearTimeout(watchdog); timer=setInterval(tick,250); hold('grace'); try{ e.target.unloadModule('captions'); }catch(x){} }
+          else if(e.data===S.BUFFERING){ hold('hold'); }
+          else if(e.data===S.PAUSED || e.data===S.CUED){ hold('paused'); }
+          tick(); icon();
+        },
+        onError:function(){ stop(false); var tm=q('.bar .tm'); if(tm) tm.textContent='Video unavailable'; }
+      }});
+  }
+  function mount(start){
+    pending=start||0;
+    if(player && player.seekTo){ hold('grace', pending); player.seekTo(pending,true); player.playVideo(); return; }
+    if(player) return;                            // loading: pending is applied on ready
+    if(window.YT && YT.Player){ ready(); return; }
+    window.onYouTubeIframeAPIReady=ready;
+    if(!document.getElementById('ytapi')){ var s=document.createElement('script'); s.id='ytapi'; s.src='https://www.youtube.com/iframe_api'; document.head.appendChild(s); }
+  }
+  function toggle(){ if(!player || !player.playVideo){ mount(pending); return; } playing()? player.pauseVideo() : player.playVideo(); }
+  function seekTo(t){ if(!player || !player.seekTo){ mount(t); return; } hold('grace', t); player.seekTo(Math.max(0,t),true); if(!playing()) player.playVideo(); tick(); }
+  function seekBy(d){ seekTo(now()+d); }
+  function fullscreen(){
+    var c=q('.centre'); if(!c) return;
+    if(document.fullscreenElement){ document.exitFullscreen(); }
+    else if(c.requestFullscreen){ c.requestFullscreen(); }
+  }
+  function langs(){ return Object.keys(cues); }
+  function capOn(code){ return !!(caps[code] && cues[code]); }
+  function anyCap(){ return langs().some(capOn); }
+  function setCaps(o){
+    caps=o; try{ localStorage.setItem('caps', JSON.stringify(o)); }catch(e){}
+    document.querySelectorAll('.bar .cc[data-lang]').forEach(function(b){ b.setAttribute('aria-pressed', String(capOn(b.dataset.lang))); });
+    capShown=null; paintCaps(now());
+    if(player && player.unloadModule){ try{ player.unloadModule('captions'); }catch(e){} }
+  }
+  function toggleCap(code){ var o={}; for(var k in caps) o[k]=caps[k]; o[code]=!o[code]; setCaps(o); }
+  function capsKey(){   // c: everything off, or back to what was on
+    if(anyCap()){ lastCaps=caps; var off={}; for(var k in caps) off[k]=false; setCaps(off); }
+    else { var on=lastCaps && Object.keys(lastCaps).some(function(k){ return lastCaps[k]; }) ? lastCaps : capDefault(); setCaps(on); }
+  }
+  function cueAt(list, t){ for(var i=0;i<list.length;i++){ if(t>=list[i][0] && t<list[i][1]) return list[i][2]; } return ''; }
+  function paintCaps(t){
+    var box=video && video.querySelector('.caps .plate'); if(!box) return;
+    var parts=[], key='';
+    ['en','zh'].concat(langs().filter(function(k){ return k!=='en' && k!=='zh'; })).forEach(function(k){
+      if(!capOn(k)) return; var s=cueAt(cues[k], t); if(!s) return;
+      parts.push({k:k, s:s}); key+=k+'|'+s+'\n';
+    });
+    if(key===capShown) return;
+    capShown=key; box.textContent='';
+    parts.forEach(function(p){ var el=document.createElement('span'); el.className=p.k; el.textContent=p.s; box.appendChild(el); });
+  }
+  function sideOpen(open){
+    document.body.classList.toggle('side-open', open);
+    var b=q('.otog'); if(b) b.setAttribute('aria-expanded', String(open));
+    try{ localStorage.setItem('side', open?'1':'0'); }catch(e){}
+  }
+  function wire(scope){
+    player=null; clearInterval(timer); poster=''; capShown=null;
+    var src=scope.querySelector('.player .cues'); if(src){ cues={}; try{ cues=JSON.parse(src.textContent)||{}; }catch(e){} }
+    paintWatched(scope);
+    scope.querySelectorAll('.side li.cur > a').forEach(function(a){ a.addEventListener('click', function(ev){ ev.preventDefault(); }); });
+    var cur=document.querySelector('.side li.cur'); if(cur && cur.scrollIntoView) cur.scrollIntoView({block:'nearest'});
+    scope.querySelectorAll('.video[data-id] .play').forEach(function(b){ b.addEventListener('click', function(){ mount(0); }); });
+    scope.querySelectorAll('.timeline a[data-t]').forEach(function(a){
+      a.addEventListener('click', function(ev){ if(!q('.video[data-id]')) return; ev.preventDefault(); seekTo(parseFloat(a.dataset.t)); });
+    });
+    var on=function(sel, fn){ var el=scope.querySelector(sel); if(el) el.addEventListener('click', fn); };
+    on('.bar .pp', toggle); on('.bar .fs', fullscreen);
+    on('.bar .back', function(){ seekBy(-10); }); on('.bar .fwd', function(){ seekBy(10); });
+    scope.querySelectorAll('.bar .cc[data-lang]').forEach(function(b){
+      b.setAttribute('aria-pressed', String(capOn(b.dataset.lang)));
+      b.addEventListener('click', function(){ toggleCap(b.dataset.lang); });
+    });
+    on('.bar .spd', function(){ speed(RATES[(RATES.indexOf(rate)+1)%RATES.length]); });
+    speed(rate);
+    var seek=scope.querySelector('.seek');
+    if(seek){
+      var frac=function(ev){ var r=seek.getBoundingClientRect(); return Math.max(0,Math.min(1,(ev.clientX-r.left)/r.width)); };
+      seek.addEventListener('click', function(ev){ seekTo(frac(ev)*total()); });
+      seek.addEventListener('mousemove', function(ev){
+        var f=frac(ev), t=f*total(), tip=seek.querySelector('.tip'), name='';
+        marks().forEach(function(a){ if(parseFloat(a.dataset.t)<=t+0.5) name=a.querySelector('span:last-child').textContent; });
+        if(tip){ tip.style.left=(100*f)+'%'; tip.textContent=(name?name+' · ':'')+clock(t); }
+      });
+    }
+    if(window.renderMathInElement) renderMathInElement(scope,{delimiters:[{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false,strict:'ignore',trust:true});
+  }
+  document.addEventListener('keydown', function(ev){
+    if(!q('.video[data-id]') || /input|textarea|select|button/i.test(ev.target.tagName)) return;
+    if(ev.key===' '||ev.key==='k'){ ev.preventDefault(); toggle(); }
+    else if(ev.key==='ArrowRight'){ ev.preventDefault(); seekBy(5); }
+    else if(ev.key==='ArrowLeft'){ ev.preventDefault(); seekBy(-5); }
+    else if(ev.key==='j'){ seekBy(-10); } else if(ev.key==='l'){ seekBy(10); }
+    else if(ev.key==='f'){ fullscreen(); }
+    else if(ev.key==='c'){ capsKey(); }
+    else if(ev.key==='>'||ev.key==='.'){ speedStep(1); }
+    else if(ev.key==='<'||ev.key===','){ speedStep(-1); }
+  });
+  function openChapter(){
+    var h=/^#ch(\d+)$/.exec(location.hash); if(!h) return;
+    var d=document.getElementById('ch'+h[1]); if(d){ d.open=true; d.scrollIntoView({block:'start'}); }
+  }
+  window.addEventListener('hashchange', openChapter);
+  var ot=document.querySelector('.otog');
+  if(ot){ var open=true; try{ open=localStorage.getItem('side')!=='0'; }catch(e){}
+    sideOpen(open); ot.addEventListener('click', function(){ sideOpen(!document.body.classList.contains('side-open')); }); }
+  window.__wire=wire;
+  if(!document.body.dataset.preview){
+    wire(document); openChapter();
+    var m=/^#t=(\d+)/.exec(location.hash); if(m && q('.video[data-id]')) mount(parseInt(m[1],10));
+  }
+})();
+</script>
+</body>
+</html>
